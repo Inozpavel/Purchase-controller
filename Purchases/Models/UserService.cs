@@ -55,7 +55,7 @@ namespace Purchases.Models
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            byte[] secret = Encoding.UTF8.GetBytes(_configuration["SecretKey"]);
+            byte[] secret = Encoding.UTF8.GetBytes(_configuration["SecretJWTKey"]);
 
             var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
