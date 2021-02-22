@@ -8,8 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Purchases.Data;
 using Purchases.Entities;
+using Purchases.Models;
 
-namespace Purchases.Models
+namespace Purchases.Services
 {
     public class UserService : IUserService
     {

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Purchases.Entities;
 using Purchases.Models;
+using Purchases.Services;
 
 namespace Purchases.Controllers
 {
@@ -18,7 +19,8 @@ namespace Purchases.Controllers
         public ActionResult<AuthenticateResponse> Register(User user)
         {
             var response = _userService.Register(user);
-            return CreatedAtAction(nameof(Register), new {id = user.Id}, user);
+            user.Id = response.Id;
+            return CreatedAtAction(nameof(Register), new {id = response.Id}, user);
         }
 
         [HttpPost("authenticate")]

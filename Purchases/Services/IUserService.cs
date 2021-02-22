@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Purchases.Entities;
+using Purchases.Models;
 
-namespace Purchases.Models
+namespace Purchases.Services
 {
     public interface IUserService
     {

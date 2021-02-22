@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Purchases.Data;
-using Purchases.Models;
+using Purchases.Services;
 
 namespace Purchases
 {
