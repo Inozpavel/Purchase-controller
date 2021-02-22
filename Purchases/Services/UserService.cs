@@ -40,6 +40,10 @@ namespace Purchases.Services
 
         public AuthenticateResponse? Register(User user)
         {
+            if (_repository.Users.Any(
+                x => string.Equals(x.Email, user.Email, StringComparison.CurrentCultureIgnoreCase)))
+                return null;
+            
             var addedUser = _repository.AddUser(user);
             var response = Authenticate(new AuthenticateRequest
             {

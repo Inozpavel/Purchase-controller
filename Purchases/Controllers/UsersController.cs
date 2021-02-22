@@ -19,8 +19,12 @@ namespace Purchases.Controllers
         public ActionResult<AuthenticateResponse> Register(User user)
         {
             var response = _userService.Register(user);
-            user.Id = response.Id;
-            return CreatedAtAction(nameof(Register), new {id = response.Id}, user);
+
+            if (response != null)
+                return CreatedAtAction(nameof(GetById), new {id = response.Id}, response);
+
+            ModelState.AddModelError(nameof(user.Email), "Email is already registered!");
+            return BadRequest(ModelState);
         }
 
         [HttpPost("authenticate")]
@@ -40,6 +44,16 @@ namespace Purchases.Controllers
             if (!users.Any())
                 return NoContent();
             return Ok(users);
+        }
+
+        [HttpGet("{id}")]
+        // Todo: Remove when permanent database will be added
+        public ActionResult<User> GetById(int id)
+        {
+            var user = _userService.GetById(id);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
         }
     }
 }

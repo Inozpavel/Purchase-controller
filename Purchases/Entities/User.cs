@@ -13,6 +13,7 @@ namespace Purchases.Entities
         public string? Patronymic { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
