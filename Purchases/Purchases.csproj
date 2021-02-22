@@ -5,8 +5,4 @@
         <Nullable>annotations</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="Models" />
-    </ItemGroup>
-
 </Project>
