@@ -28,20 +28,22 @@ namespace Purchases.Data
                     Email = "sidorov@gmail.com",
                     Password = "12345s"
                 }
-            }.ForEach(AddUser);
+            }.ForEach(x => AddUser(x));
         }
 
         public IEnumerable<User> Users => _users.Values;
 
-        public User? FindUser(int id) => _users[id];
+        public User? FindUser(int id) => Users.FirstOrDefault(x => x.Id == id);
 
-        public void AddUser(User user)
+        public User AddUser(User user)
         {
             int key = _users.Count;
             while (_users.Keys.Contains(key))
                 key++;
+            user.Id = key;
+            _users[user.Id] = user;
 
-            _users[key] = user;
+            return user;
         }
     }
 }

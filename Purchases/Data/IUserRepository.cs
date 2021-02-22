@@ -9,6 +9,6 @@ namespace Purchases.Data
 
         User? FindUser(int id);
 
-        void AddUser(User user);
+        User AddUser(User user);
     }
 }
