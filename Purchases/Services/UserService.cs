@@ -43,7 +43,7 @@ namespace Purchases.Services
             if (_repository.Users.Any(
                 x => string.Equals(x.Email, user.Email, StringComparison.CurrentCultureIgnoreCase)))
                 return null;
-            
+
             var addedUser = _repository.AddUser(user);
             var response = Authenticate(new AuthenticateRequest
             {
@@ -64,7 +64,7 @@ namespace Purchases.Services
 
             var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
-                Expires = DateTime.UtcNow.AddMinutes(1), //Todo: move expiration time in config file
+                Expires = DateTime.UtcNow.AddSeconds(_configuration.GetValue<int>("TokenSecondsLifetime")),
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("id", user.Id.ToString())
