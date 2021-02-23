@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Purchases.Entities
+namespace Purchases.Models
 {
-    public class User
+    public class RegisterRequest
     {
-        public int Id { get; set; }
-
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
@@ -13,10 +11,11 @@ namespace Purchases.Entities
         public string? Patronymic { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(64)] //SHA256
+        [MinLength(8)]
         public string Password { get; set; }
     }
 }

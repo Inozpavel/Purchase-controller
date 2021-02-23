@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Purchases.Data;
@@ -16,11 +18,14 @@ namespace Purchases.Services
     {
         private readonly IConfiguration _configuration;
 
+        private readonly IMapper _mapper;
+
         private readonly IUserRepository _repository;
 
-        public UserService(IConfiguration configuration, IUserRepository repository)
+        public UserService(IConfiguration configuration, IMapper mapper, IUserRepository repository)
         {
             _configuration = configuration;
+            _mapper = mapper;
             _repository = repository;
         }
 
@@ -36,10 +41,13 @@ namespace Purchases.Services
             return new AuthenticateResponse(user, token);
         }
 
-        public async Task<AuthenticateResponse?> RegisterAsync(User user)
+        public async Task<AuthenticateResponse?> RegisterAsync(RegisterRequest request)
         {
-            if (await _repository.FindUserAsync(user.Email) != null)
+            if (await _repository.FindUserAsync(request.Email) != null)
                 return null;
+
+            var user = _mapper.Map<RegisterRequest, User>(request);
+            user.Password = HashPassword(request.Password);
 
             var addedUser = await _repository.AddUserAsync(user);
             await _repository.SaveChangesAsync();
@@ -73,6 +81,13 @@ namespace Purchases.Services
             });
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private static string HashPassword(string password)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(password);
+            string hashedPassword = BitConverter.ToString(SHA256.HashData(bytes)).Replace("-", "");
+            return hashedPassword;
         }
     }
 }

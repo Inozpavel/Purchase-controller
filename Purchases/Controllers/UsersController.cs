@@ -17,14 +17,14 @@ namespace Purchases.Controllers
         public UsersController(IUserService userService) => _userService = userService;
 
         [HttpPost("register")]
-        public async Task<ActionResult<AuthenticateResponse>> RegisterAsync(User user)
+        public async Task<ActionResult<AuthenticateResponse>> RegisterAsync(RegisterRequest request)
         {
-            var response = await _userService.RegisterAsync(user);
+            var response = await _userService.RegisterAsync(request);
 
             if (response != null)
                 return CreatedAtAction("GetById", new {id = response.Id}, response);
 
-            ModelState.AddModelError(nameof(user.Email), "Email is already registered!");
+            ModelState.AddModelError(nameof(request.Email), "Email is already registered!");
             return BadRequest(ModelState);
         }
 

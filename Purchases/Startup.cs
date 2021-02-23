@@ -44,7 +44,7 @@ namespace Purchases
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
                     ValidateAudience = false,
@@ -56,6 +56,8 @@ namespace Purchases
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretJWTKey"]))
                 };
             });
+            
+            services.AddAutoMapper(typeof(UserProfile));
 
             services.AddScoped<IUserRepository, PostgreUsersRepository>();
             services.AddScoped<IUserService, UserService>();

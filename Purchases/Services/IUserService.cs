@@ -9,7 +9,7 @@ namespace Purchases.Services
     {
         Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request);
 
-        Task<AuthenticateResponse?> RegisterAsync(User user);
+        Task<AuthenticateResponse?> RegisterAsync(RegisterRequest request);
 
         Task<User?> GetByIdAsync(int id);
 
