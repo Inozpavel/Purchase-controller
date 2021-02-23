@@ -68,6 +68,7 @@ namespace Purchases
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                SeedData.EnsureUsersAdded(app);
             }
 
             app.UseSwagger();
