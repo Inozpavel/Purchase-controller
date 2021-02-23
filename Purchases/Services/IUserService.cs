@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Purchases.Entities;
 using Purchases.Models;
 
@@ -6,12 +7,12 @@ namespace Purchases.Services
 {
     public interface IUserService
     {
-        AuthenticateResponse? Authenticate(AuthenticateRequest request);
+        Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request);
 
-        AuthenticateResponse? Register(User user);
+        Task<AuthenticateResponse?> RegisterAsync(User user);
 
-        User? GetById(int id);
+        Task<User?> GetByIdAsync(int id);
 
-        IEnumerable<User> GetAll();
+        Task<IEnumerable<User>> GetAllAsync();
     }
 }

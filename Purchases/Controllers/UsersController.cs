@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Purchases.Entities;
 using Purchases.Models;
@@ -16,21 +17,22 @@ namespace Purchases.Controllers
         public UsersController(IUserService userService) => _userService = userService;
 
         [HttpPost("register")]
-        public ActionResult<AuthenticateResponse> Register(User user)
+        public async Task<ActionResult<AuthenticateResponse>> RegisterAsync(User user)
         {
-            var response = _userService.Register(user);
+            var response = await _userService.RegisterAsync(user);
 
             if (response != null)
-                return CreatedAtAction(nameof(GetById), new {id = response.Id}, response);
+                return CreatedAtAction("GetById", new {id = response.Id}, response);
 
             ModelState.AddModelError(nameof(user.Email), "Email is already registered!");
             return BadRequest(ModelState);
         }
 
         [HttpPost("authenticate")]
-        public ActionResult<AuthenticateResponse> Authenticate(AuthenticateRequest request)
+        public async Task<ActionResult<AuthenticateResponse>> AuthenticateAsync(AuthenticateRequest request)
         {
-            var response = _userService.Authenticate(request);
+            var response = await _userService.AuthenticateAsync(request);
+
             if (response == null)
                 return BadRequest(new {message = "Email or password is incorrect"});
             return Ok(response);
@@ -38,9 +40,9 @@ namespace Purchases.Controllers
 
         [HttpGet("all")]
         // Todo: Remove when permanent database will be added
-        public ActionResult<IEnumerable<User>> GetAll()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllAsync()
         {
-            var users = _userService.GetAll();
+            var users = await _userService.GetAllAsync();
             if (!users.Any())
                 return NoContent();
             return Ok(users);
@@ -48,9 +50,9 @@ namespace Purchases.Controllers
 
         [HttpGet("{id}")]
         // Todo: Remove when permanent database will be added
-        public ActionResult<User> GetById(int id)
+        public async Task<ActionResult<User>> GetByIdAsync(int id)
         {
-            var user = _userService.GetById(id);
+            var user = await _userService.GetByIdAsync(id);
             if (user == null)
                 return NotFound();
             return Ok(user);

@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,10 +24,15 @@ namespace Purchases
         {
             services.AddControllers();
 
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseNpgsql(_configuration["DbConnectionString"]);
+            });
+
             services.AddSwaggerGen(options =>
             {
                 options.EnableAnnotations();
-                
+
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "PurchasesService",
@@ -51,8 +57,8 @@ namespace Purchases
                 };
             });
 
-            services.AddSingleton<IUserRepository, MemoryUserRepository>();
-            services.AddSingleton<IUserService, UserService>();
+            services.AddScoped<IUserRepository, PostgreUsersRepository>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

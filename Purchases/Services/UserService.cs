@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Purchases.Data;
@@ -21,14 +21,12 @@ namespace Purchases.Services
         public UserService(IConfiguration configuration, IUserRepository repository)
         {
             _configuration = configuration;
-
             _repository = repository;
         }
 
-        public AuthenticateResponse? Authenticate(AuthenticateRequest request)
+        public async Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request)
         {
-            var user = _repository.Users.FirstOrDefault(x =>
-                x.Email == request.Email && x.Password == request.Password);
+            var user = await _repository.FindUserAsync(request.Email, request.Password);
 
             if (user == null)
                 return null;
@@ -38,14 +36,15 @@ namespace Purchases.Services
             return new AuthenticateResponse(user, token);
         }
 
-        public AuthenticateResponse? Register(User user)
+        public async Task<AuthenticateResponse?> RegisterAsync(User user)
         {
-            if (_repository.Users.Any(
-                x => string.Equals(x.Email, user.Email, StringComparison.CurrentCultureIgnoreCase)))
+            if (await _repository.FindUserAsync(user.Email) != null)
                 return null;
 
-            var addedUser = _repository.AddUser(user);
-            var response = Authenticate(new AuthenticateRequest
+            var addedUser = await _repository.AddUserAsync(user);
+            await _repository.SaveChangesAsync();
+
+            var response = await AuthenticateAsync(new AuthenticateRequest
             {
                 Email = addedUser.Email,
                 Password = addedUser.Password
@@ -53,13 +52,13 @@ namespace Purchases.Services
             return response;
         }
 
-        public User? GetById(int id) => _repository.FindUser(id);
+        public async Task<User?> GetByIdAsync(int id) => await _repository.FindUserAsync(id);
 
-        public IEnumerable<User> GetAll() => _repository.Users;
+        public async Task<IEnumerable<User>> GetAllAsync() => await _repository.GetAllUsersAsync();
 
         private string GenerateJwtToken(User user)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityTokenHandler tokenHandler = new();
             byte[] secret = Encoding.UTF8.GetBytes(_configuration["SecretJWTKey"]);
 
             var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
