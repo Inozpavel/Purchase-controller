@@ -56,20 +56,22 @@ namespace Purchases
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretJWTKey"]))
                 };
             });
-            
+
             services.AddAutoMapper(typeof(UserProfile));
 
             services.AddScoped<IUserRepository, PostgreUsersRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<DataSeeder>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder seeder)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                SeedData.EnsureUsersAdded(app);
             }
+
+            seeder.EnsureUsersAdded();
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>
