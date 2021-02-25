@@ -31,7 +31,7 @@ namespace Purchases.Services
 
         public async Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request)
         {
-            var user = await _repository.FindUserAsync(request.Email, request.Password);
+            var user = await _repository.FindUserAsync(request.Email, HashPassword(request.Password));
 
             if (user == null)
                 return null;
