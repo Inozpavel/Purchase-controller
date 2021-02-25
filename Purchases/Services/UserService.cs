@@ -67,11 +67,11 @@ namespace Purchases.Services
         private string GenerateJwtToken(User user)
         {
             JwtSecurityTokenHandler tokenHandler = new();
-            byte[] secret = Encoding.UTF8.GetBytes(_configuration["SecretJWTKey"]);
+            byte[] secret = Encoding.UTF8.GetBytes(_configuration["JWT_KEY"]);
 
             var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
-                Expires = DateTime.UtcNow.AddSeconds(_configuration.GetValue<int>("TokenSecondsLifetime")),
+                Expires = DateTime.UtcNow.AddSeconds(_configuration.GetValue<int>("TOKEN_SECONDS_LIFETIME")),
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("id", user.Id.ToString())

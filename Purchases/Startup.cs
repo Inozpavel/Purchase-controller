@@ -26,7 +26,7 @@ namespace Purchases
 
             services.AddDbContext<ApplicationContext>(options =>
             {
-                options.UseNpgsql(_configuration["DbConnectionString"]);
+                options.UseNpgsql(_configuration["DB_CONNECTION_STRING"]);
             });
 
             services.AddSwaggerGen(options =>
@@ -53,7 +53,7 @@ namespace Purchases
                     ClockSkew = TimeSpan.Zero,
 
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretJWTKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT_KEY"]))
                 };
             });
 
