@@ -46,16 +46,17 @@ namespace Purchases.Services
             if (await _repository.FindUserAsync(request.Email) != null)
                 return null;
 
+            string password = request.Password;
             var user = _mapper.Map<RegisterRequest, User>(request);
-            user.Password = HashPassword(request.Password);
+            user.Password = HashPassword(password);
 
-            var addedUser = await _repository.AddUserAsync(user);
+            await _repository.AddUserAsync(user);
             await _repository.SaveChangesAsync();
 
             var response = await AuthenticateAsync(new AuthenticateRequest
             {
-                Email = addedUser.Email,
-                Password = addedUser.Password
+                Email = user.Email,
+                Password = password
             });
             return response;
         }
