@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +13,7 @@ namespace Purchases.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [SwaggerTag("Operations about users")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -27,7 +29,7 @@ namespace Purchases.Controllers
         [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(AuthenticateResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized,
             "When email is already registered or password is too short", typeof(ProblemDetails))]
-        public async Task<ActionResult<AuthenticateResponse>> RegisterAsync(RegisterRequest request)
+        public async Task<ActionResult<AuthenticateResponse>> RegisterAsync([Required] RegisterRequest request)
         {
             var response = await _userService.RegisterAsync(request);
 
@@ -46,7 +48,7 @@ namespace Purchases.Controllers
         [SwaggerResponse(StatusCodes.Status202Accepted)]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "When email or password is incorrect",
             typeof(ProblemDetails))]
-        public async Task<ActionResult<AuthenticateResponse>> AuthenticateAsync(AuthenticateRequest request)
+        public async Task<ActionResult<AuthenticateResponse>> AuthenticateAsync([Required] AuthenticateRequest request)
         {
             var response = await _userService.AuthenticateAsync(request);
 
@@ -57,7 +59,7 @@ namespace Purchases.Controllers
         }
 
         /// <summary>
-        ///     Returns all existing users
+        ///     Finds all existing users
         /// </summary>
         [HttpGet("all")]
         [SwaggerResponse(StatusCodes.Status200OK)]
@@ -72,8 +74,10 @@ namespace Purchases.Controllers
         }
 
         /// <summary>
-        ///     Returns user with given id
+        ///     Find user by id
         /// </summary>
+        /// <returns>Returns a single user</returns>
+        /// <param name="id">User id</param>
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If user is not found")]

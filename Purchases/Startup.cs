@@ -39,9 +39,39 @@ namespace Purchases
                 {
                     Title = "PurchasesService",
                     Description = "Service for managing users and purchases",
-                    Version = "v1"
+                    Version = "v1",
+                    Contact = new OpenApiContact
+                    {
+                        Email = "inozpavel@mail.ru",
+                        Name = "Inozemtsev Pavel"
+                    }
                 });
 
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT",
+                    Description =
+                        "JWT authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Scheme = JwtBearerDefaults.AuthenticationScheme
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
                 string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string filePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(filePath);
@@ -68,6 +98,7 @@ namespace Purchases
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IPurchasesRepository, PostgrePurchasesRepository>();
+            services.AddScoped<IPurchasesService, PurchasesService>();
 
             services.AddTransient<DataSeeder>();
         }

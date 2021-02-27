@@ -29,7 +29,7 @@ namespace Purchases.Controllers
         /// </summary>
         [HttpGet("all")]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "If the are no purchases")]
         public async Task<ActionResult<IEnumerable<Purchase>>> AllPurchasesAsync()
         {
             var purchases = await _purchasesService.AllForUserAsync(GetUserId());
@@ -42,9 +42,10 @@ namespace Purchases.Controllers
         /// <summary>
         ///     Get all purchases on date for user
         /// </summary>
+        /// <param name="date" example="2021-02-27T06:20:30">Time when the purchases was made</param>
         [HttpGet("all/{date}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "If the are no purchases")]
         public async Task<ActionResult<IEnumerable<Purchase>>> AllPurchasesOnDateAsync([Required] DateTime date)
         {
             var purchases = await _purchasesService.AllForUserOnDateAsync(GetUserId(), date);
