@@ -47,7 +47,6 @@ namespace Purchases
                 options.IncludeXmlComments(filePath);
             });
 
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -67,6 +66,9 @@ namespace Purchases
 
             services.AddScoped<IUserRepository, PostgreUsersRepository>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IPurchasesRepository, PostgrePurchasesRepository>();
+
             services.AddTransient<DataSeeder>();
         }
 
