@@ -61,8 +61,6 @@ namespace Purchases.Services
             return response;
         }
 
-        public async Task<User?> GetByIdAsync(int id) => await _repository.FindUserAsync(id);
-
         public async Task<IEnumerable<User>> GetAllAsync() => await _repository.GetAllUsersAsync();
 
         private string GenerateJwtToken(User user)
@@ -84,7 +82,7 @@ namespace Purchases.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private static string HashPassword(string password)
+        public static string HashPassword(string password)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(password);
             string hashedPassword = BitConverter.ToString(SHA256.HashData(bytes)).Replace("-", "");

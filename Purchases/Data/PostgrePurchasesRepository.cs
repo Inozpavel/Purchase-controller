@@ -15,7 +15,7 @@ namespace Purchases.Data
 
         public async Task<Purchase> AddAsync(Purchase purchase)
         {
-            var addedPurchase = await _context.Purchases.AddAsync(new Purchase()
+            var addedPurchase = await _context.Purchases.AddAsync(new Purchase
             {
                 Name = purchase.Name,
                 UserId = purchase.UserId,
@@ -30,7 +30,7 @@ namespace Purchases.Data
         public async Task<IEnumerable<Purchase>> AllForUserAsync(int userId) =>
             await _context.Purchases.Where(x => x.UserId == userId).ToListAsync();
 
-        public async Task<IEnumerable<Purchase>> AllForUserOnDataAsync(int userId, DateTime date) =>
+        public async Task<IEnumerable<Purchase>> AllForUserOnDateAsync(int userId, DateTime date) =>
             await _context.Purchases.Where(x => x.UserId == userId && x.Date == date).ToListAsync();
 
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();

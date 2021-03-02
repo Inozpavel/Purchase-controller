@@ -11,8 +11,6 @@ namespace Purchases.Services
 
         Task<AuthenticateResponse?> RegisterAsync(RegisterRequest request);
 
-        Task<User?> GetByIdAsync(int id);
-
         Task<IEnumerable<User>> GetAllAsync();
     }
 }

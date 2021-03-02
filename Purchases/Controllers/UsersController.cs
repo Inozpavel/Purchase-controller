@@ -26,7 +26,7 @@ namespace Purchases.Controllers
         /// <param name="request">Information about new user</param>
         /// <returns>Created user with token for authentication</returns>
         [HttpPost("register")]
-        [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(AuthenticateResponse))]
+        [SwaggerResponse(StatusCodes.Status202Accepted, Type = typeof(AuthenticateResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized,
             "When email is already registered or password is too short", typeof(ProblemDetails))]
         public async Task<ActionResult<AuthenticateResponse>> RegisterAsync([Required] RegisterRequest request)
@@ -36,7 +36,7 @@ namespace Purchases.Controllers
             if (response == null)
                 return Unauthorized(new ProblemDetails {Detail = "Email is already registered!"});
 
-            return CreatedAtAction("GetById", new {id = response.Id}, response);
+            return Accepted(response);
         }
 
         /// <summary>
@@ -71,23 +71,6 @@ namespace Purchases.Controllers
             if (!users.Any())
                 return NoContent();
             return Ok(users);
-        }
-
-        /// <summary>
-        ///     Find user by id
-        /// </summary>
-        /// <returns>Returns a single user</returns>
-        /// <param name="id">User id</param>
-        [HttpGet("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "If user is not found")]
-        // Todo: Remove when project will be ready
-        public async Task<ActionResult<User>> GetByIdAsync(int id)
-        {
-            var user = await _userService.GetByIdAsync(id);
-            if (user == null)
-                return NotFound();
-            return Ok(user);
         }
     }
 }

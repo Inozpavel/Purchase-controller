@@ -16,7 +16,7 @@ namespace Purchases.Services
             await _repository.AllForUserAsync(userId);
 
         public async Task<IEnumerable<Purchase>> AllForUserOnDateAsync(int userId, DateTime date) =>
-            await _repository.AllForUserOnDataAsync(userId, date);
+            await _repository.AllForUserOnDateAsync(userId, date);
 
         public async Task<Purchase> AddAsync(Purchase purchase)
         {

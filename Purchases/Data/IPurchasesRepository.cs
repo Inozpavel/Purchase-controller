@@ -13,7 +13,7 @@ namespace Purchases.Data
 
         Task<IEnumerable<Purchase>> AllForUserAsync(int userId);
 
-        Task<IEnumerable<Purchase>> AllForUserOnDataAsync(int userId, DateTime date);
+        Task<IEnumerable<Purchase>> AllForUserOnDateAsync(int userId, DateTime date);
 
         Task SaveChangesAsync();
     }
