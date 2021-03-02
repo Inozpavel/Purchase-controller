@@ -110,18 +110,18 @@ namespace Purchases.Tests
         {
             var user = Helper.GenerateRandomUser();
 
-            var purchase = new Purchase()
+            var purchase = new Purchase
             {
                 Cost = 1200,
                 Date = DateTime.Now,
                 Name = "purchase",
                 UserId = user.Id
             };
-            
+
             Mock<IPurchasesRepository> mock = new();
             PurchasesService service = new(mock.Object);
             mock.Setup(x => x.AddAsync(purchase)).ReturnsAsync(purchase);
-            
+
             var controller = new PurchasesController(service)
             {
                 ControllerContext = new ControllerContext
