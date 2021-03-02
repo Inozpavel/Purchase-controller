@@ -74,7 +74,7 @@ namespace Purchases.Tests
 
             var service = new UserService(Helper.Configuration, mapper, mock.Object);
             var controller = new UsersController(service);
-            
+
             var response = await controller.AuthenticateAsync(new AuthenticateRequest
             {
                 Email = user.Email,
@@ -107,7 +107,7 @@ namespace Purchases.Tests
                 Email = user.Email,
                 Password = user.Password
             });
-            
+
             Assert.IsType<UnauthorizedObjectResult>(response.Result);
             Assert.NotNull(((UnauthorizedObjectResult) response.Result).Value);
         }
@@ -130,7 +130,7 @@ namespace Purchases.Tests
                 Email = user.Email,
                 Password = user.Password
             });
-            
+
             Assert.IsType<UnauthorizedObjectResult>(response.Result);
             Assert.NotNull(((UnauthorizedObjectResult) response.Result).Value);
         }

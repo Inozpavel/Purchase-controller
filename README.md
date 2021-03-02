@@ -1,0 +1,1 @@
+[![CI build and test](https://github.com/Inozpavel/RTUITLabBackend/actions/workflows/dotnet.yml/badge.svg?branch=master&event=push)](https://github.com/Inozpavel/RTUITLabBackend/actions/workflows/dotnet.yml)
