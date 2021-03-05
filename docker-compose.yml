@@ -8,10 +8,10 @@ services:
     ports:
       - '5433:5432'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       timeout: 3s
-      interval: 5s
-      retries: 5
+      interval: 3s
+      retries: 88
     environment:
       - POSTGRES_PASSWORD=postgres
       - PGDATA=/data/pgsql/1
@@ -22,6 +22,7 @@ services:
     image: inozpavel/authentication
     restart: always
     environment:
+      # Minimum 16 symbols!!!
       - JWT_KEY=RTUITLAbSecretKey123
       - TOKEN_SECONDS_LIFETIME=60
       - DB_CONNECTION_STRING=Host=db;Port=5432;Database=postgres;Username=postgres;Password=postgres
