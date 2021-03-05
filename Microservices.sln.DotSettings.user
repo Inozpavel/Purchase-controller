@@ -1,0 +1,30 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	
+	<s:String x:Key="/Default/CodeInspection/Highlighting/SweaWarningsMode/@EntryValue">ShowAndRun</s:String>
+	
+	<s:Boolean x:Key="/Default/Environment/Filtering/ExcludeCoverageFilters/=Purchases_003B_002A_003BPurchases_002EData_002E_002A_003B_002A/@EntryIndexRemoved">True</s:Boolean>
+	
+	<s:Boolean x:Key="/Default/Environment/Filtering/ExcludeCoverageFilters/=Purchases_003B_002A_003BPurchases_002EEntities_002E_002A_003B_002A/@EntryIndexRemoved">True</s:Boolean>
+	
+	<s:Boolean x:Key="/Default/Environment/Filtering/ExcludeCoverageFilters/=Purchases_003B_002A_003BPurchases_002EMigrations_002E_002A_003B_002A/@EntryIndexRemoved">True</s:Boolean>
+	
+	<s:Boolean x:Key="/Default/Environment/Filtering/ExcludeCoverageFilters/=Purchases_003B_002A_003BPurchases_002EProgram_003B_002A/@EntryIndexRemoved">True</s:Boolean>
+	
+	<s:Boolean x:Key="/Default/Environment/Filtering/ExcludeCoverageFilters/=Purchases_003B_002A_003BPurchases_002EStartup_003B_002A/@EntryIndexRemoved">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Inozp\AppData\Local\JetBrains\Rider2020.3\resharper-host\temp\Rider\vAny\CoverageData\_Microservices.970453474\Snapshot\snapshot.utdcvr</s:String>
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=002c150f_002D55d7_002D4f6d_002D83d2_002Dc3c323038029/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UserCanAuthenticate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6c01889e_002Ddca5_002D4b95_002Da457_002D281c1582d1de/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Inozemtsev/@EntryIndexedValue">True</s:Boolean>
+	</wpf:ResourceDictionary>

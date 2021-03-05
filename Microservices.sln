@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases", "Purchases\Purc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.Tests", "Purchases.Tests\Purchases.Tests.csproj", "{B7D0D81A-568A-4B78-8226-750F19546EDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores", "Stores\Stores.csproj", "{32C9EA80-A310-4EC1-AC46-EC2E992E3122}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{B7D0D81A-568A-4B78-8226-750F19546EDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7D0D81A-568A-4B78-8226-750F19546EDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7D0D81A-568A-4B78-8226-750F19546EDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32C9EA80-A310-4EC1-AC46-EC2E992E3122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32C9EA80-A310-4EC1-AC46-EC2E992E3122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32C9EA80-A310-4EC1-AC46-EC2E992E3122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32C9EA80-A310-4EC1-AC46-EC2E992E3122}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
