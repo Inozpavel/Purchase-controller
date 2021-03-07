@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Purchases.Entities;
 
-namespace Purchases.Models
+namespace Purchases.DTOs
 {
     public class AuthenticateResponse
     {

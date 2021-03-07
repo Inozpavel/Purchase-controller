@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Purchases.Data;
+using Purchases.Mapper;
 using Purchases.Services;
 
 namespace Purchases
@@ -100,10 +101,10 @@ namespace Purchases
             services.AddScoped<IPurchasesRepository, PostgrePurchasesRepository>();
             services.AddScoped<IPurchasesService, PurchasesService>();
 
-            services.AddTransient<DataSeeder>();
+            services.AddTransient<DatabaseInitializer>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeeder seeder)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseInitializer seeder)
         {
             if (env.IsDevelopment())
             {
@@ -116,6 +117,7 @@ namespace Purchases
             app.UseSwaggerUI(options =>
             {
                 options.RoutePrefix = "";
+                options.DocumentTitle = "Documentation for purchases service";
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "PurchasesService");
             });
 

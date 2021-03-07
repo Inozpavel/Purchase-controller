@@ -9,8 +9,8 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Purchases.Data;
+using Purchases.DTOs;
 using Purchases.Entities;
-using Purchases.Models;
 
 namespace Purchases.Services
 {

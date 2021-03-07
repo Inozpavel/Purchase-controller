@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Purchases.DTOs;
 using Purchases.Entities;
-using Purchases.Models;
 using Purchases.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -29,7 +29,7 @@ namespace Purchases.Controllers
         [SwaggerResponse(StatusCodes.Status202Accepted, Type = typeof(AuthenticateResponse))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized,
             "When email is already registered or password is too short", typeof(ProblemDetails))]
-        public async Task<ActionResult<AuthenticateResponse>> RegisterAsync([Required] RegisterRequest request)
+        public async Task<ActionResult<AuthenticateResponse>> Register([Required] RegisterRequest request)
         {
             var response = await _userService.RegisterAsync(request);
 
@@ -48,7 +48,7 @@ namespace Purchases.Controllers
         [SwaggerResponse(StatusCodes.Status202Accepted)]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "When email or password is incorrect",
             typeof(ProblemDetails))]
-        public async Task<ActionResult<AuthenticateResponse>> AuthenticateAsync([Required] AuthenticateRequest request)
+        public async Task<ActionResult<AuthenticateResponse>> Authenticate([Required] AuthenticateRequest request)
         {
             var response = await _userService.AuthenticateAsync(request);
 
@@ -65,7 +65,7 @@ namespace Purchases.Controllers
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If there are no users")]
         // Todo: Remove when project will be ready
-        public async Task<ActionResult<IEnumerable<User>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
             var users = await _userService.GetAllAsync();
             if (!users.Any())

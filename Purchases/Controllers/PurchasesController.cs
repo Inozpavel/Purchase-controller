@@ -30,7 +30,7 @@ namespace Purchases.Controllers
         [HttpGet("all")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If the are no purchases")]
-        public async Task<ActionResult<IEnumerable<Purchase>>> AllPurchasesAsync()
+        public async Task<ActionResult<IEnumerable<Purchase>>> GetAll()
         {
             var purchases = await _purchasesService.AllForUserAsync(GetUserId());
 
@@ -46,10 +46,9 @@ namespace Purchases.Controllers
         [HttpGet("all/{date}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If the are no purchases")]
-        public async Task<ActionResult<IEnumerable<Purchase>>> AllPurchasesOnDateAsync([Required] DateTime date)
+        public async Task<ActionResult<IEnumerable<Purchase>>> GetAllOnDate([Required] DateTime date)
         {
             var purchases = await _purchasesService.AllForUserOnDateAsync(GetUserId(), date);
-
             if (!purchases.Any())
                 return NoContent();
             return Ok(purchases);
@@ -61,7 +60,7 @@ namespace Purchases.Controllers
         /// <param name="purchase"></param>
         [HttpPost("add")]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        public async Task<ActionResult> AddAsync([Required] Purchase purchase)
+        public async Task<ActionResult> Add([Required] Purchase purchase)
         {
             purchase.UserId = GetUserId();
 

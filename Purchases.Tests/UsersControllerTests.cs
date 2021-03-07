@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Purchases.Controllers;
 using Purchases.Data;
+using Purchases.DTOs;
 using Purchases.Entities;
-using Purchases.Models;
+using Purchases.Mapper;
 using Purchases.Services;
 using Xunit;
 
@@ -29,7 +30,7 @@ namespace Purchases.Tests
             var service = new UserService(Helper.Configuration, Helper.CreateMapperWithProfiles(new UserProfile()),
                 mock.Object);
             var controller = new UsersController(service);
-            var response = await controller.GetAllAsync();
+            var response = await controller.GetAll();
 
             if (preAddedUsersCount == 0)
                 Assert.IsType<NoContentResult>(response.Result);
@@ -54,7 +55,7 @@ namespace Purchases.Tests
             var service = new UserService(Helper.Configuration, mapper, mock.Object);
             var controller = new UsersController(service);
 
-            var response = await controller.RegisterAsync(new RegisterRequest
+            var response = await controller.Register(new RegisterRequest
             {
                 Email = user.Email,
                 Password = user.Password
@@ -75,7 +76,7 @@ namespace Purchases.Tests
             var service = new UserService(Helper.Configuration, mapper, mock.Object);
             var controller = new UsersController(service);
 
-            var response = await controller.AuthenticateAsync(new AuthenticateRequest
+            var response = await controller.Authenticate(new AuthenticateRequest
             {
                 Email = user.Email,
                 Password = user.Password
@@ -102,7 +103,7 @@ namespace Purchases.Tests
             var service = new UserService(Helper.Configuration, mapper, mock.Object);
             var controller = new UsersController(service);
 
-            var response = await controller.RegisterAsync(new RegisterRequest
+            var response = await controller.Register(new RegisterRequest
             {
                 Email = user.Email,
                 Password = user.Password
@@ -125,7 +126,7 @@ namespace Purchases.Tests
             var service = new UserService(Helper.Configuration, mapper, mock.Object);
             var controller = new UsersController(service);
 
-            var response = await controller.AuthenticateAsync(new AuthenticateRequest
+            var response = await controller.Authenticate(new AuthenticateRequest
             {
                 Email = user.Email,
                 Password = user.Password

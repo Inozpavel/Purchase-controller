@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Purchases.DTOs;
 using Purchases.Entities;
-using Purchases.Models;
 
-namespace Purchases
+namespace Purchases.Mapper
 {
     public class UserProfile : Profile
     {

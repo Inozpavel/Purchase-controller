@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Purchases.DTOs;
 using Purchases.Entities;
-using Purchases.Models;
 
 namespace Purchases.Services
 {

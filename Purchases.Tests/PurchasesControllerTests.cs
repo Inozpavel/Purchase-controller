@@ -48,7 +48,7 @@ namespace Purchases.Tests
                 }
             };
 
-            var response = await controller.AllPurchasesAsync();
+            var response = await controller.GetAll();
             if (purchasesToAdd > 0)
             {
                 Assert.IsType<OkObjectResult>(response.Result);
@@ -93,7 +93,7 @@ namespace Purchases.Tests
                 }
             };
 
-            var response = await controller.AllPurchasesOnDateAsync(date);
+            var response = await controller.GetAllOnDate(date);
             if (purchasesToAdd > 0)
             {
                 Assert.IsType<OkObjectResult>(response.Result);
@@ -136,7 +136,7 @@ namespace Purchases.Tests
                 }
             };
 
-            var response = await controller.AddAsync(purchase);
+            var response = await controller.Add(purchase);
             Assert.IsType<OkObjectResult>(response);
         }
     }

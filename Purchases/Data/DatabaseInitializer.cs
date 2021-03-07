@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Purchases.Models;
+using Purchases.DTOs;
 using Purchases.Services;
 
 namespace Purchases.Data
 {
-    public class DataSeeder
+    public class DatabaseInitializer
     {
         private readonly ApplicationContext _context;
 
         private readonly IUserService _userService;
 
-        public DataSeeder(ApplicationContext context, IUserService userService)
+        public DatabaseInitializer(ApplicationContext context, IUserService userService)
         {
             _context = context;
             _userService = userService;
