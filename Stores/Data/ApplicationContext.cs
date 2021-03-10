@@ -12,5 +12,7 @@ namespace Stores.Data
         public DbSet<Store> Stores { get; set; }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<StoreCategory> StoreCategories { get; set; }
     }
 }

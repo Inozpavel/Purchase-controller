@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Stores.Entities
 {
@@ -17,5 +18,7 @@ namespace Stores.Entities
         public decimal Price { get; set; }
 
         public int CountInStock { get; set; }
+
+        public List<StoreCategory> Categories { get; set; }
     }
 }
