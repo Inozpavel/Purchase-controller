@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Stores.Data;
+using Stores.Mapper;
+using Stores.Services;
 
 namespace Stores
 {
@@ -22,6 +24,9 @@ namespace Stores
             {
                 options.UseNpgsql(_configuration["DB_CONNECTION_STRING"]);
             });
+
+            services.AddScoped<IStoreRepository, StoreRepository>();
+            services.AddScoped<IStoreService, StoreService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
