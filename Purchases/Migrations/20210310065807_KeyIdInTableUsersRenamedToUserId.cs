@@ -7,27 +7,27 @@ namespace Purchases.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "Id",
-                table: "Users",
-                newName: "UserId");
+                "Id",
+                "Users",
+                "UserId");
 
             migrationBuilder.RenameColumn(
-                name: "Id",
-                table: "Purchases",
-                newName: "PurchaseId");
+                "Id",
+                "Purchases",
+                "PurchaseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "UserId",
-                table: "Users",
-                newName: "Id");
+                "UserId",
+                "Users",
+                "Id");
 
             migrationBuilder.RenameColumn(
-                name: "PurchaseId",
-                table: "Purchases",
-                newName: "Id");
+                "PurchaseId",
+                "Purchases",
+                "Id");
         }
     }
 }
