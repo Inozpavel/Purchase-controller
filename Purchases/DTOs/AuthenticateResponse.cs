@@ -7,7 +7,7 @@ namespace Purchases.DTOs
     {
         public AuthenticateResponse(User user, string token)
         {
-            Id = user.Id;
+            Id = user.UserId;
             FirstName = user.FirstName ?? "";
             LastName = user.LastName ?? "";
             Patronymic = user.Patronymic ?? "";

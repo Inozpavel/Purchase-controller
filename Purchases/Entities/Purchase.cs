@@ -9,7 +9,7 @@ namespace Purchases.Entities
 {
     public class Purchase
     {
-        public int Id { get; set; }
+        public int PurchaseId { get; set; }
 
         [JsonIgnore]
         public int UserId { get; set; }

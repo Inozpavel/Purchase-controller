@@ -28,11 +28,11 @@ namespace Purchases.Tests
 
             var purchases = new List<Purchase>();
             for (int i = 0; i < purchasesToAdd; i++)
-                purchases.Add(new Purchase {UserId = user.Id});
+                purchases.Add(new Purchase {UserId = user.UserId});
 
             Mock<IPurchasesRepository> mock = new();
             PurchasesService service = new(mock.Object);
-            mock.Setup(x => x.AllForUserAsync(user.Id)).ReturnsAsync(purchases);
+            mock.Setup(x => x.AllForUserAsync(user.UserId)).ReturnsAsync(purchases);
 
             var controller = new PurchasesController(service)
             {
@@ -42,7 +42,7 @@ namespace Purchases.Tests
                     {
                         User = new ClaimsPrincipal(new ClaimsIdentity(new[]
                         {
-                            new Claim("id", user.Id.ToString())
+                            new Claim("id", user.UserId.ToString())
                         }))
                     }
                 }
@@ -72,11 +72,11 @@ namespace Purchases.Tests
 
             var purchases = new List<Purchase>();
             for (int i = 0; i < purchasesToAdd; i++)
-                purchases.Add(new Purchase {UserId = user.Id, Date = date});
+                purchases.Add(new Purchase {UserId = user.UserId, Date = date});
 
             Mock<IPurchasesRepository> mock = new();
             PurchasesService service = new(mock.Object);
-            mock.Setup(x => x.AllForUserOnDateAsync(user.Id, date))
+            mock.Setup(x => x.AllForUserOnDateAsync(user.UserId, date))
                 .ReturnsAsync(purchases.Where(x => x.Date == date).ToList());
 
             var controller = new PurchasesController(service)
@@ -87,7 +87,7 @@ namespace Purchases.Tests
                     {
                         User = new ClaimsPrincipal(new ClaimsIdentity(new[]
                         {
-                            new Claim("id", user.Id.ToString())
+                            new Claim("id", user.UserId.ToString())
                         }))
                     }
                 }
@@ -115,7 +115,7 @@ namespace Purchases.Tests
                 Cost = 1200,
                 Date = DateTime.Now,
                 Name = "purchase",
-                UserId = user.Id
+                UserId = user.UserId
             };
 
             Mock<IPurchasesRepository> mock = new();
@@ -130,7 +130,7 @@ namespace Purchases.Tests
                     {
                         User = new ClaimsPrincipal(new ClaimsIdentity(new[]
                         {
-                            new Claim("id", user.Id.ToString())
+                            new Claim("id", user.UserId.ToString())
                         }))
                     }
                 }

@@ -13,7 +13,7 @@ namespace Purchases.Data
 
         public async Task<IEnumerable<User>> GetAllUsersAsync() => await _context.Users.ToListAsync();
 
-        public async Task<User?> FindUserAsync(int id) => await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<User?> FindUserAsync(int id) => await _context.Users.FirstOrDefaultAsync(x => x.UserId == id);
 
         public async Task<User?> FindUserAsync(string email) =>
             await _context.Users.FirstOrDefaultAsync(x => x.Email == email);

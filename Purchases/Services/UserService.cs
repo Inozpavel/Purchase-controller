@@ -73,7 +73,7 @@ namespace Purchases.Services
                 Expires = DateTime.UtcNow.AddSeconds(_configuration.GetValue<int>("TOKEN_SECONDS_LIFETIME")),
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("id", user.Id.ToString())
+                    new Claim("id", user.UserId.ToString())
                 }),
                 SigningCredentials =
                     new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256)
