@@ -19,11 +19,12 @@ namespace Stores.Services
             _mapper = mapper;
         }
 
-        public async Task<Store> AddAsync(StoreRequest request)
+        public async Task<Store?> AddAsync(StoreRequest request)
         {
             var store = _mapper.Map<Store>(request);
-            //Todo: check name if existing
-            
+            if (await _repository.Find(store.StoreName) != null)
+                return null;
+
             var addedStore = await _repository.Add(store);
             await _repository.SaveChangesAsync();
             return addedStore;
@@ -33,8 +34,14 @@ namespace Stores.Services
 
         public Task<Store?> FindById(int id) => _repository.Find(id);
 
-        public async Task<Store> Update(Store store)
+        public Task<Store?> FindByName(string name) => _repository.Find(name);
+
+        public async Task<Store> Update(Store store, StoreRequest request)
         {
+            store.StoreName = request.StoreName;
+            store.Address = request.Address;
+            store.Phone = request.Phone;
+
             var updatedStore = _repository.Update(store);
             await _repository.SaveChangesAsync();
             return updatedStore;

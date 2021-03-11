@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +39,10 @@ namespace Stores
                         Name = "Inozemtsev Pavel"
                     }
                 });
+
+                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                string filePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(filePath);
             });
 
             services.AddDbContext<ApplicationContext>(options =>

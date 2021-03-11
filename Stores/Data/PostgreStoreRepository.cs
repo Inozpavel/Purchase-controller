@@ -27,6 +27,9 @@ namespace Stores.Data
 
         public async Task<Store> Find(int id) => await _context.Stores.FirstOrDefaultAsync(x => x.StoreId == id);
 
+        public async Task<Store?> Find(string storeName) =>
+            await _context.Stores.FirstOrDefaultAsync(x => x.StoreName == storeName);
+
         public Store Update(Store store)
         {
             var updatedStore = _context.Stores.Update(store);
@@ -34,9 +37,6 @@ namespace Stores.Data
         }
 
         public void Delete(Store store) => _context.Stores.Remove(store);
-
-        public async Task<Store> Find(string storeName) =>
-            await _context.Stores.FirstOrDefaultAsync(x => x.StoreName == storeName);
 
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }

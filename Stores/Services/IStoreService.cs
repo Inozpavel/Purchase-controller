@@ -7,13 +7,15 @@ namespace Stores.Services
 {
     public interface IStoreService
     {
-        Task<Store> AddAsync(StoreRequest store);
+        Task<Store?> AddAsync(StoreRequest store);
 
         Task<IEnumerable<Store>> AllAsync();
 
         Task<Store?> FindById(int id);
 
-        Task<Store> Update(Store store);
+        Task<Store?> FindByName(string name);
+
+        Task<Store> Update(Store store, StoreRequest request);
 
         Task DeleteAsync(Store store);
     }
