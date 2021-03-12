@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Purchases.Controllers;
-using Purchases.Data;
-using Purchases.DTOs;
-using Purchases.Entities;
-using Purchases.Mapper;
-using Purchases.Services;
+using Purchases.Api.Controllers;
+using Purchases.Api.Data;
+using Purchases.Api.DTOs;
+using Purchases.Api.Entities;
+using Purchases.Api.Mapper;
+using Purchases.Api.Services;
 using Xunit;
 
 namespace Purchases.Tests

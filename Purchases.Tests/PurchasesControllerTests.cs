@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Purchases.Controllers;
-using Purchases.Data;
-using Purchases.Entities;
-using Purchases.Services;
+using Purchases.Api.Controllers;
+using Purchases.Api.Data;
+using Purchases.Api.Entities;
+using Purchases.Api.Services;
 using Xunit;
 
 namespace Purchases.Tests

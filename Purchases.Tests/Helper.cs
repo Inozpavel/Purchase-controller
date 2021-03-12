@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using Purchases.Entities;
+using Purchases.Api.Entities;
 
 namespace Purchases.Tests
 {
@@ -14,8 +14,8 @@ namespace Purchases.Tests
 
         static Helper()
         {
-            string configPath = Assembly.Load("Purchases").Location
-                .Replace("Purchases.dll", "appsettings.json");
+            string configPath = Assembly.Load("Purchases.Api").Location
+                .Replace("Purchases.Api.dll", "appsettings.json");
 
             Configuration = new ConfigurationBuilder().AddJsonFile(configPath).Build();
         }
