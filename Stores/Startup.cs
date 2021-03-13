@@ -32,6 +32,7 @@ namespace Stores
 
             services.AddSwaggerGen(options =>
             {
+                options.EnableAnnotations();
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "StoresService",
