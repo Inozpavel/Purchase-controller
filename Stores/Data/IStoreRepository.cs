@@ -10,9 +10,9 @@ namespace Stores.Data
 
         Task<IEnumerable<Store>> All();
 
-        Task<Store?> Find(int id);
+        Task<Store?> Find(int storeId);
 
-        Task<Store?> Find(string name);
+        Task<Store?> Find(string? storeName, string address);
 
         Store Update(Store store);
 

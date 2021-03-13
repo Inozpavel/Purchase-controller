@@ -67,31 +67,6 @@ namespace Stores.Controllers
         }
 
         /// <summary>
-        ///     Updates store by id
-        /// </summary>
-        /// <param name="id">Id of the store</param>
-        /// <param name="request">New store information</param>
-        [HttpPut("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(Store))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "If id is wrong")]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "If store with given name is already added",
-            typeof(ProblemDetails))]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult<Store>> UpdateById(int id, StoreRequest request)
-        {
-            var store = await _storeService.FindById(id);
-            if (store == null)
-                return NotFound();
-
-            if (await _storeService.FindByName(request.StoreName) != null)
-                return BadRequest(new ProblemDetails {Detail = "Store with this name is already added!"});
-
-            var updatedStore = await _storeService.Update(store, request);
-
-            return Ok(updatedStore);
-        }
-
-        /// <summary>
         ///     Deletes store by id
         /// </summary>
         /// <param name="id">Id of the store</param>
@@ -107,6 +82,33 @@ namespace Stores.Controllers
 
             await _storeService.DeleteAsync(store);
             return Ok(store);
+        }
+
+        /// <summary>
+        ///     Updates store by id
+        /// </summary>
+        /// <param name="id">Id of the store</param>
+        /// <param name="request">New store information</param>
+        [HttpPut("{id}")]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(Store))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "If store with given and adress name is already existing",
+            typeof(ProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "If id is wrong")]
+        public async Task<ActionResult<Store>> UpdateById(int id, StoreRequest request)
+        {
+            var store = await _storeService.FindById(id);
+            if (store == null)
+                return NotFound();
+
+            if (await _storeService.FindByNameWithAddress(request.StoreName, request.Address) != null)
+            {
+                return BadRequest(new ProblemDetails
+                    {Detail = "Store at given address with given name is already existing!"});
+            }
+
+            var updatedStore = await _storeService.Update(store, request);
+
+            return Ok(updatedStore);
         }
     }
 }

@@ -25,10 +25,10 @@ namespace Stores.Data
             return addedStore.Entity;
         }
 
-        public async Task<Store> Find(int id) => await _context.Stores.FirstOrDefaultAsync(x => x.StoreId == id);
+        public async Task<Store> Find(int storeId) => await _context.Stores.FirstOrDefaultAsync(x => x.StoreId == storeId);
 
-        public async Task<Store?> Find(string storeName) =>
-            await _context.Stores.FirstOrDefaultAsync(x => x.StoreName == storeName);
+        public async Task<Store?> Find(string storeName, string address) =>
+            await _context.Stores.FirstOrDefaultAsync(x => x.StoreName == storeName && x.Address == address);
 
         public Store Update(Store store)
         {

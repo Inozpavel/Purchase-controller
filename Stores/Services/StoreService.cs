@@ -22,7 +22,7 @@ namespace Stores.Services
         public async Task<Store?> AddAsync(StoreRequest request)
         {
             var store = _mapper.Map<Store>(request);
-            if (await _repository.Find(store.StoreName) != null)
+            if (await _repository.Find(store.StoreName, store.Address) != null)
                 return null;
 
             var addedStore = await _repository.Add(store);
@@ -34,7 +34,7 @@ namespace Stores.Services
 
         public Task<Store?> FindById(int id) => _repository.Find(id);
 
-        public Task<Store?> FindByName(string name) => _repository.Find(name);
+        public Task<Store?> FindByNameWithAddress(string name, string address) => _repository.Find(name, address);
 
         public async Task<Store> Update(Store store, StoreRequest request)
         {

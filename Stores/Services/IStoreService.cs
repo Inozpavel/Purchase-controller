@@ -13,7 +13,7 @@ namespace Stores.Services
 
         Task<Store?> FindById(int id);
 
-        Task<Store?> FindByName(string name);
+        Task<Store?> FindByNameWithAddress(string name, string address);
 
         Task<Store> Update(Store store, StoreRequest request);
 
