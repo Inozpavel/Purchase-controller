@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stores.DTOs;
 using Stores.Entities;
-using Microsoft.AspNetCore.Http;
 using Stores.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -18,7 +18,7 @@ namespace Stores.Controllers
         public CategoriesController(IStoreCategoryService service) => _service = service;
 
         /// <summary>
-        /// Finds all existing categories in store
+        ///     Finds all existing categories in store
         /// </summary>
         /// <param name="storeId"></param>
         /// <returns></returns>
@@ -38,7 +38,7 @@ namespace Stores.Controllers
         }
 
         /// <summary>
-        /// Creates a new category in store
+        ///     Creates a new category in store
         /// </summary>
         /// <param name="storeId"></param>
         /// <param name="request"></param>
@@ -65,7 +65,7 @@ namespace Stores.Controllers
         }
 
         /// <summary>
-        /// Finds category in store by id
+        ///     Finds category in store by id
         /// </summary>
         /// <param name="storeId"></param>
         /// <param name="categoryId"></param>
@@ -78,15 +78,15 @@ namespace Stores.Controllers
             if (!await _service.CheckStoreWithIdIsExisting(storeId))
                 return NotFound();
             var category = await _service.FindInStoreById(storeId, categoryId);
-            
+
             if (category == null)
                 return NotFound();
-            
+
             return Ok(category);
         }
 
         /// <summary>
-        /// Updates category in store by id
+        ///     Updates category in store by id
         /// </summary>
         /// <returns></returns>
         [HttpPut("{storeId}/[controller]/{categoryId}")]
@@ -106,7 +106,7 @@ namespace Stores.Controllers
         }
 
         /// <summary>
-        /// Deletes category in store by id
+        ///     Deletes category in store by id
         /// </summary>
         /// <param name="storeId"></param>
         /// <param name="categoryId"></param>

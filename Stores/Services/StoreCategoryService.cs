@@ -9,9 +9,9 @@ namespace Stores.Services
 {
     public class StoreCategoryService : IStoreCategoryService
     {
-        private readonly IStoreCategoryRepository _repository;
-
         private readonly IMapper _mapper;
+        
+        private readonly IStoreCategoryRepository _repository;
 
         public StoreCategoryService(IStoreCategoryRepository repository, IMapper mapper)
         {
@@ -50,7 +50,7 @@ namespace Stores.Services
             category.StoreCategoryName = request.CategoryName;
             var updatedCategory = _repository.Update(category);
             await _repository.SaveChanges();
-            
+
             return updatedCategory;
         }
     }
