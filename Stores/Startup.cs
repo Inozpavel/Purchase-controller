@@ -24,7 +24,11 @@ namespace Stores
         {
             services.AddControllers();
 
-            services.AddAutoMapper(mapperConfiguration => { mapperConfiguration.AddProfile<StoreProfile>(); });
+            services.AddAutoMapper(mapperConfiguration =>
+            {
+                mapperConfiguration.AddProfile<StoreProfile>();
+                mapperConfiguration.AddProfile<CategoryProfile>();
+            });
 
             services.AddSwaggerGen(options =>
             {
@@ -52,6 +56,9 @@ namespace Stores
 
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IStoreService, StoreService>();
+
+            services.AddScoped<IStoreCategoryRepository, PostgreStoreCategoryRepository>();
+            services.AddScoped<IStoreCategoryService, StoreCategoryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
