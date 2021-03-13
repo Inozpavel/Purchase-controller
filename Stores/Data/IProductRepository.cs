@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Stores.Entities;
 
 namespace Stores.Data
@@ -9,6 +10,10 @@ namespace Stores.Data
 
 
         Task<Product?> Find(int id);
+
+        Task<Product?> Find(int storeId, string productName);
+
+        Task<IEnumerable<Product>> FindByStore(int storeId);
 
         Product Update(Product product);
 

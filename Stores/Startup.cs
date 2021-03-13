@@ -27,6 +27,7 @@ namespace Stores
             services.AddAutoMapper(mapperConfiguration =>
             {
                 mapperConfiguration.AddProfile<StoreProfile>();
+                mapperConfiguration.AddProfile<ProductProfile>();
                 mapperConfiguration.AddProfile<CategoryProfile>();
             });
 
@@ -57,6 +58,9 @@ namespace Stores
 
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IStoreService, StoreService>();
+
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
 
             services.AddScoped<IStoreCategoryRepository, PostgreStoreCategoryRepository>();
             services.AddScoped<IStoreCategoryService, StoreCategoryService>();
