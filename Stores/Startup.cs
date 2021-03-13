@@ -64,14 +64,18 @@ namespace Stores
 
             services.AddScoped<IStoreCategoryRepository, PostgreStoreCategoryRepository>();
             services.AddScoped<IStoreCategoryService, StoreCategoryService>();
+
+            services.AddTransient<DatabaseInitializer>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseInitializer initializer)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            initializer.Initialize();
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>
