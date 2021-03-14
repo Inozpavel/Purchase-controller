@@ -7,9 +7,9 @@ namespace Purchases.Api.Services
 {
     public interface IUserService
     {
-        Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request);
+        Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest request);
 
-        Task<AuthenticateResponse?> RegisterAsync(RegisterRequest request);
+        Task<AuthenticateResponse> RegisterAsync(RegisterRequest request);
 
         Task<IEnumerable<User>> GetAllAsync();
     }

@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Purchases.Api.Data;
 using Purchases.Api.DTOs;
 using Purchases.Api.Entities;
+using Purchases.Api.Exceptions;
 
 namespace Purchases.Api.Services
 {
@@ -29,22 +30,22 @@ namespace Purchases.Api.Services
             _repository = repository;
         }
 
-        public async Task<AuthenticateResponse?> AuthenticateAsync(AuthenticateRequest request)
+        public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest request)
         {
             var user = await _repository.FindUserAsync(request.Email, HashPassword(request.Password));
 
             if (user == null)
-                return null;
+                throw new ApiException("Email or password is incorrect");
 
             string token = GenerateJwtToken(user);
 
             return new AuthenticateResponse(user, token);
         }
 
-        public async Task<AuthenticateResponse?> RegisterAsync(RegisterRequest request)
+        public async Task<AuthenticateResponse> RegisterAsync(RegisterRequest request)
         {
             if (await _repository.FindUserAsync(request.Email) != null)
-                return null;
+                throw new ApiException("Email is already registered!");
 
             string password = request.Password;
             var user = _mapper.Map<RegisterRequest, User>(request);

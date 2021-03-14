@@ -2,11 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Purchases.Api.DTOs;
 using Purchases.Api.Entities;
+using Purchases.Api.Exceptions;
 using Purchases.Api.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -32,12 +32,16 @@ namespace Purchases.Api.Controllers
             "When email is already registered or password is too short", typeof(ProblemDetails))]
         public async Task<ActionResult<AuthenticateResponse>> Register([Required] RegisterRequest request)
         {
-            var response = await _userService.RegisterAsync(request);
+            try
+            {
+                var response = await _userService.RegisterAsync(request);
 
-            if (response == null)
-                return Unauthorized(new ProblemDetails {Detail = "Email is already registered!"});
-
-            return Accepted(response);
+                return Accepted(response);
+            }
+            catch (ApiException e)
+            {
+                return Unauthorized(new ProblemDetails {Detail = e.Message});
+            }
         }
 
         /// <summary>
@@ -51,12 +55,16 @@ namespace Purchases.Api.Controllers
             typeof(ProblemDetails))]
         public async Task<ActionResult<AuthenticateResponse>> Authenticate([Required] AuthenticateRequest request)
         {
-            var response = await _userService.AuthenticateAsync(request);
+            try
+            {
+                var response = await _userService.AuthenticateAsync(request);
 
-            if (response == null)
-                return Unauthorized(new ProblemDetails {Detail = "Email or password is incorrect"});
-
-            return Accepted(response);
+                return Accepted(response);
+            }
+            catch (ApiException e)
+            {
+                return Unauthorized(new ProblemDetails {Detail = e.Message});
+            }
         }
 
         /// <summary>
