@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.Api", "Purchases.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.Tests", "Purchases.Tests\Purchases.Tests.csproj", "{B7D0D81A-568A-4B78-8226-750F19546EDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores", "Stores\Stores.csproj", "{32C9EA80-A310-4EC1-AC46-EC2E992E3122}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Api", "Stores.Api\Stores.Api.csproj", "{32C9EA80-A310-4EC1-AC46-EC2E992E3122}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
