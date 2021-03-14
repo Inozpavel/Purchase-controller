@@ -2,11 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stores.DTOs;
 using Stores.Entities;
+using Stores.Exceptions;
 using Stores.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -20,7 +20,7 @@ namespace Stores.Controllers
 
         private readonly IStoreService _storeService;
 
-        public ProductsController(IProductService productProductService, IStoreService storeService, IMapper mapper)
+        public ProductsController(IProductService productProductService, IStoreService storeService)
         {
             _productService = productProductService;
             _storeService = storeService;
@@ -35,16 +35,19 @@ namespace Stores.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> Add(int storeId, [Required] ProductRequest request)
         {
-            if (await _storeService.FindById(storeId) == null)
-                return NotFound();
+            try
+            {
+                if (await _storeService.FindByIdAsync(storeId) == null)
+                    return NotFound();
 
-            var addedProduct = await _productService.Add(storeId, request);
+                var addedProduct = await _productService.AddAsync(storeId, request);
 
-            if (addedProduct == null)
-                return BadRequest(new ProblemDetails
-                    {Detail = "Product with given name is already existing in this store!"});
-
-            return CreatedAtAction(nameof(FindById), new {productId = addedProduct.ProductId}, addedProduct);
+                return CreatedAtAction(nameof(FindById), new {productId = addedProduct.ProductId}, addedProduct);
+            }
+            catch (ApiException e)
+            {
+                return BadRequest(new ProblemDetails {Detail = e.Message});
+            }
         }
 
         /// <summary>
@@ -56,10 +59,10 @@ namespace Stores.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Product>>> AllProducts(int storeId)
         {
-            if (await _storeService.FindById(storeId) == null)
+            if (await _storeService.FindByIdAsync(storeId) == null)
                 return NotFound();
 
-            var products = await _productService.FindByStore(storeId);
+            var products = await _productService.FindByStoreIdAsync(storeId);
             if (!products.Any())
                 return NoContent();
 
@@ -74,7 +77,7 @@ namespace Stores.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> FindById(int productId)
         {
-            var product = await _productService.Find(productId);
+            var product = await _productService.FindByIdAsync(productId);
 
             if (product == null)
                 return NotFound();
@@ -90,12 +93,12 @@ namespace Stores.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> UpdateById(int productId, ProductRequest request)
         {
-            var product = await _productService.Find(productId);
+            var product = await _productService.FindByIdAsync(productId);
 
             if (product == null)
                 return NotFound();
 
-            var updatedProduct = await _productService.Update(product, request);
+            var updatedProduct = await _productService.UpdateAsync(product, request);
 
             return Ok(updatedProduct);
         }
@@ -108,12 +111,12 @@ namespace Stores.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> DeleteById(int productId)
         {
-            var product = await _productService.Find(productId);
+            var product = await _productService.FindByIdAsync(productId);
 
             if (product == null)
                 return NotFound();
 
-            _productService.Delete(product);
+            await _productService.DeleteAsync(product);
 
             return Ok(product);
         }

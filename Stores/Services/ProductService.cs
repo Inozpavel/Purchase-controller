@@ -4,6 +4,7 @@ using AutoMapper;
 using Stores.Data;
 using Stores.DTOs;
 using Stores.Entities;
+using Stores.Exceptions;
 
 namespace Stores.Services
 {
@@ -12,6 +13,7 @@ namespace Stores.Services
         private readonly IStoreCategoryRepository _categoryRepository;
 
         private readonly IMapper _mapper;
+
         private readonly IProductRepository _productRepository;
 
         public ProductService(IProductRepository productRepository, IStoreCategoryRepository categoryRepository,
@@ -22,60 +24,61 @@ namespace Stores.Services
             _mapper = mapper;
         }
 
-        public async Task<Product?> Add(int storeId, ProductRequest request)
+        public async Task<Product> AddAsync(int storeId, ProductRequest request)
         {
             if (await _productRepository.Find(storeId, request.ProductName) != null)
-                return null;
+                throw new ApiException("Category with given name is already existing in this store!");
 
             var product = _mapper.Map<Product>(request);
             product.StoreId = storeId;
-
-            List<StoreCategory> categories = new();
-
-            foreach (int categoryId in request.CategoriesIds)
-            {
-                var category = await _categoryRepository.Find(storeId, categoryId);
-                if (category == null)
-                    return null;
-
-                categories.Add(category);
-            }
-
-            product.Categories = categories;
+            product.Categories = await FindCategoriesInStoreAsync(storeId, request.CategoriesIds);
 
             var addedProduct = await _productRepository.Add(product);
             await _productRepository.SaveChangesAsync();
             return addedProduct;
         }
 
-        public async Task<Product?> Find(int id) => await _productRepository.Find(id);
+        public async Task<Product?> FindByIdAsync(int id) => await _productRepository.Find(id);
 
-        public void Delete(Product product) => _productRepository.Delete(product);
-
-        public async Task<IEnumerable<Product>> FindByStore(int storeId) =>
+        public async Task<IEnumerable<Product>> FindByStoreIdAsync(int storeId) =>
             await _productRepository.FindByStore(storeId);
 
-        public async Task<Product> Update(Product product, ProductRequest request)
+        public async Task<Product> UpdateAsync(Product product, ProductRequest request)
         {
             product.Categories.Clear();
-            var categories = new List<StoreCategory>();
 
-            foreach (int categoryId in request.CategoriesIds)
-            {
-                var category = await _categoryRepository.Find(product.StoreId, categoryId);
-                if (category == null)
-                    return null;
-                categories.Add(category);
-            }
+            var categories = await FindCategoriesInStoreAsync(product.StoreId, request.CategoriesIds);
+            categories.ForEach(product.Categories.Add);
 
             product.ProductName = request.ProductName;
             product.Description = request.Description;
             product.ProductName = request.ProductName;
-            categories.ForEach(product.Categories.Add);
 
             var updatedProduct = _productRepository.Update(product);
             await _productRepository.SaveChangesAsync();
             return updatedProduct;
+        }
+
+        public async Task DeleteAsync(Product product)
+        {
+            _productRepository.Delete(product);
+            await _productRepository.SaveChangesAsync();
+        }
+
+        private async Task<List<StoreCategory>> FindCategoriesInStoreAsync(int storeId, IEnumerable<int> categoriesIds)
+        {
+            List<StoreCategory> categories = new();
+
+            foreach (int categoryId in categoriesIds)
+            {
+                var category = await _categoryRepository.Find(storeId, categoryId);
+                if (category == null)
+                    throw new ApiException("This store does not contains category with given id: " + categoryId);
+
+                categories.Add(category);
+            }
+
+            return categories;
         }
     }
 }

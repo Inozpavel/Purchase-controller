@@ -4,6 +4,7 @@ using AutoMapper;
 using Stores.Data;
 using Stores.DTOs;
 using Stores.Entities;
+using Stores.Exceptions;
 
 namespace Stores.Services
 {
@@ -19,11 +20,11 @@ namespace Stores.Services
             _mapper = mapper;
         }
 
-        public async Task<Store?> AddAsync(StoreRequest request)
+        public async Task<Store> AddAsync(StoreRequest request)
         {
+            if (await _repository.Find(request.StoreName, request.Address) != null)
+                throw new ApiException("Store at given address with given name is already existing!");
             var store = _mapper.Map<Store>(request);
-            if (await _repository.Find(store.StoreName, store.Address) != null)
-                return null;
 
             var addedStore = await _repository.Add(store);
             await _repository.SaveChangesAsync();
@@ -32,12 +33,13 @@ namespace Stores.Services
 
         public async Task<IEnumerable<Store>> AllAsync() => await _repository.All();
 
-        public Task<Store?> FindById(int id) => _repository.Find(id);
+        public Task<Store?> FindByIdAsync(int id) => _repository.Find(id);
 
-        public Task<Store?> FindByNameWithAddress(string name, string address) => _repository.Find(name, address);
-
-        public async Task<Store> Update(Store store, StoreRequest request)
+        public async Task<Store> UpdateAsync(Store store, StoreRequest request)
         {
+            if (await _repository.Find(request.StoreName, request.Address) != null)
+                throw new ApiException("Store at given address with given name is already existing!");
+
             store.StoreName = request.StoreName;
             store.Address = request.Address;
             store.Phone = request.Phone;

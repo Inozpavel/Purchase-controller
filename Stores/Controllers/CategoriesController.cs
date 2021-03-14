@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stores.DTOs;
 using Stores.Entities;
+using Stores.Exceptions;
 using Stores.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -18,26 +19,6 @@ namespace Stores.Controllers
         public CategoriesController(IStoreCategoryService service) => _service = service;
 
         /// <summary>
-        ///     Finds all existing categories in store
-        /// </summary>
-        /// <param name="storeId"></param>
-        /// <returns></returns>
-        [HttpGet("{storeId}/[controller]")]
-        [SwaggerResponse(StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status204NoContent, "If there are no categories in store")]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
-        public async Task<ActionResult<StoreCategory>> All(int storeId)
-        {
-            if (!await _service.CheckStoreWithIdIsExisting(storeId))
-                return NotFound();
-            var categories = await _service.FindAll(storeId);
-            if (!categories.Any())
-                return NoContent();
-
-            return Ok(categories);
-        }
-
-        /// <summary>
         ///     Creates a new category in store
         /// </summary>
         /// <param name="storeId"></param>
@@ -50,18 +31,38 @@ namespace Stores.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
         public async Task<ActionResult<StoreCategory>> Add(int storeId, CategoryRequest request)
         {
-            if (!await _service.CheckStoreWithIdIsExisting(storeId))
+            try
+            {
+                if (!await _service.CheckStoreWithIdIsExistingAsync(storeId))
+                    return NotFound();
+                var addedCategory = await _service.AddAsync(storeId, request);
+                return CreatedAtAction(nameof(FindById), new {storeId, categoryId = addedCategory.StoreCategoryId},
+                    addedCategory);
+            }
+            catch (ApiException e)
+            {
+                return BadRequest(new ProblemDetails {Detail = e.Message});
+            }
+        }
+
+        /// <summary>
+        ///     Finds all existing categories in store
+        /// </summary>
+        /// <param name="storeId"></param>
+        /// <returns></returns>
+        [HttpGet("{storeId}/[controller]")]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "If there are no categories in store")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
+        public async Task<ActionResult<StoreCategory>> All(int storeId)
+        {
+            if (!await _service.CheckStoreWithIdIsExistingAsync(storeId))
                 return NotFound();
-            var addedCategory = await _service.Add(storeId, request);
+            var categories = await _service.FindAllAsync(storeId);
+            if (!categories.Any())
+                return NoContent();
 
-            if (addedCategory == null)
-                return BadRequest(new ProblemDetails
-                {
-                    Detail = "Category with given name is already existing in this store!"
-                });
-
-            return CreatedAtAction(nameof(Find), new {storeId, categoryId = addedCategory.StoreCategoryId},
-                addedCategory);
+            return Ok(categories);
         }
 
         /// <summary>
@@ -73,11 +74,11 @@ namespace Stores.Controllers
         [HttpGet("{storeId}/[controller]/{categoryId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
-        public async Task<ActionResult<StoreCategory>> Find(int storeId, int categoryId)
+        public async Task<ActionResult<StoreCategory>> FindById(int storeId, int categoryId)
         {
-            if (!await _service.CheckStoreWithIdIsExisting(storeId))
+            if (!await _service.CheckStoreWithIdIsExistingAsync(storeId))
                 return NotFound();
-            var category = await _service.FindInStoreById(storeId, categoryId);
+            var category = await _service.FindInStoreByIdAsync(storeId, categoryId);
 
             if (category == null)
                 return NotFound();
@@ -92,17 +93,25 @@ namespace Stores.Controllers
         [HttpPut("{storeId}/[controller]/{categoryId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
-        public async Task<ActionResult<StoreCategory>> Update(int storeId, int categoryId, CategoryRequest request)
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "If category id is not found", typeof(ProblemDetails))]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<StoreCategory>> UpdateById(int storeId, int categoryId, CategoryRequest request)
         {
-            if (!await _service.CheckStoreWithIdIsExisting(storeId))
-                return NotFound();
-            var category = await _service.FindInStoreById(storeId, categoryId);
+            try
+            {
+                if (!await _service.CheckStoreWithIdIsExistingAsync(storeId))
+                    return NotFound();
+                var category = await _service.FindInStoreByIdAsync(storeId, categoryId);
 
-            if (category == null)
-                return NotFound();
+                if (category == null)
+                    return NotFound();
 
-            await _service.Update(category, request);
-            return Ok(category);
+                return Ok(await _service.UpdateAsync(category, request));
+            }
+            catch (ApiException e)
+            {
+                return BadRequest(new ProblemDetails {Detail = e.Message});
+            }
         }
 
         /// <summary>
@@ -114,16 +123,16 @@ namespace Stores.Controllers
         [HttpDelete("{storeId}/[controller]/{categoryId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
-        public async Task<ActionResult<StoreCategory>> Delete(int storeId, int categoryId)
+        public async Task<ActionResult<StoreCategory>> DeleteById(int storeId, int categoryId)
         {
-            if (!await _service.CheckStoreWithIdIsExisting(storeId))
+            if (!await _service.CheckStoreWithIdIsExistingAsync(storeId))
                 return NotFound();
-            var category = await _service.FindInStoreById(storeId, categoryId);
+            var category = await _service.FindInStoreByIdAsync(storeId, categoryId);
 
             if (category == null)
                 return NotFound();
 
-            _service.Delete(category);
+            await _service.DeleteAsync(category);
             return Ok(category);
         }
     }

@@ -14,7 +14,7 @@ namespace Stores.Data
 
         Task<StoreCategory?> Find(int storeId, int categoryId);
 
-        Task SaveChanges();
+        Task SaveChangesAsync();
 
         void Delete(StoreCategory category);
 

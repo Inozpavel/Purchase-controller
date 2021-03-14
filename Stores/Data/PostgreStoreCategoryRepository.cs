@@ -44,6 +44,6 @@ namespace Stores.Data
 
         public void Delete(StoreCategory category) => _context.StoreCategories.Remove(category);
 
-        public Task SaveChanges() => _context.SaveChangesAsync();
+        public Task SaveChangesAsync() => _context.SaveChangesAsync();
     }
 }
