@@ -9,7 +9,6 @@ namespace Purchases.Api.DTOs
         public string Email { get; init; }
 
         [Required]
-        [MinLength(8)]
         public string Password { get; init; }
     }
 }
