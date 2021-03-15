@@ -8,7 +8,7 @@ namespace Stores.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                "Stores.Api",
+                "Stores",
                 table => new
                 {
                     StoreId = table.Column<int>("integer", nullable: false)
@@ -39,7 +39,7 @@ namespace Stores.Api.Migrations
                     table.ForeignKey(
                         "FK_Products_Stores_StoreId",
                         x => x.StoreId,
-                        "Stores.Api",
+                        "Stores",
                         "StoreId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -60,7 +60,7 @@ namespace Stores.Api.Migrations
                     table.ForeignKey(
                         "FK_StoreCategories_Stores_StoreId",
                         x => x.StoreId,
-                        "Stores.Api",
+                        "Stores",
                         "StoreId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -118,7 +118,7 @@ namespace Stores.Api.Migrations
                 "StoreCategories");
 
             migrationBuilder.DropTable(
-                "Stores.Api");
+                "Stores");
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Stores.Api.Migrations
                     b.ToTable("ProductStoreCategory");
                 });
 
-            modelBuilder.Entity("Stores.Api.Entities.Product", b =>
+            modelBuilder.Entity("Stores.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -65,7 +65,7 @@ namespace Stores.Api.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Stores.Api.Entities.Store", b =>
+            modelBuilder.Entity("Stores.Entities.Store", b =>
                 {
                     b.Property<int>("StoreId")
                         .ValueGeneratedOnAdd()
@@ -86,10 +86,10 @@ namespace Stores.Api.Migrations
 
                     b.HasKey("StoreId");
 
-                    b.ToTable("Stores.Api");
+                    b.ToTable("Stores");
                 });
 
-            modelBuilder.Entity("Stores.Api.Entities.StoreCategory", b =>
+            modelBuilder.Entity("Stores.Entities.StoreCategory", b =>
                 {
                     b.Property<int>("StoreCategoryId")
                         .ValueGeneratedOnAdd()
@@ -112,31 +112,31 @@ namespace Stores.Api.Migrations
 
             modelBuilder.Entity("ProductStoreCategory", b =>
                 {
-                    b.HasOne("Stores.Api.Entities.StoreCategory", null)
+                    b.HasOne("Stores.Entities.StoreCategory", null)
                         .WithMany()
                         .HasForeignKey("CategoriesStoreCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Stores.Api.Entities.Product", null)
+                    b.HasOne("Stores.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Stores.Api.Entities.Product", b =>
+            modelBuilder.Entity("Stores.Entities.Product", b =>
                 {
-                    b.HasOne("Stores.Api.Entities.Store", null)
+                    b.HasOne("Stores.Entities.Store", null)
                         .WithMany("Products")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Stores.Api.Entities.StoreCategory", b =>
+            modelBuilder.Entity("Stores.Entities.StoreCategory", b =>
                 {
-                    b.HasOne("Stores.Api.Entities.Store", "Store")
+                    b.HasOne("Stores.Entities.Store", "Store")
                         .WithMany("Categories")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -145,7 +145,7 @@ namespace Stores.Api.Migrations
                     b.Navigation("Store");
                 });
 
-            modelBuilder.Entity("Stores.Api.Entities.Store", b =>
+            modelBuilder.Entity("Stores.Entities.Store", b =>
                 {
                     b.Navigation("Categories");
 

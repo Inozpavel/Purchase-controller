@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Stores.Api.Data;
@@ -29,6 +30,64 @@ namespace Stores.Api.Migrations
                 b.HasIndex("ProductsProductId");
 
                 b.ToTable("ProductStoreCategory");
+            });
+
+            modelBuilder.Entity("Stores.Api.Entities.CustomCategory", b =>
+            {
+                b.Property<int>("CustomCategoryId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer")
+                    .HasAnnotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                b.Property<string>("CustomCategoryName")
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                b.Property<string>("Description")
+                    .HasColumnType("text");
+
+                b.Property<int>("UserId")
+                    .HasColumnType("integer");
+
+                b.HasKey("CustomCategoryId");
+
+                b.ToTable("CustomCategories");
+            });
+
+            modelBuilder.Entity("Stores.Api.Entities.CustomCategoryForProduct", b =>
+            {
+                b.Property<int>("CustomCategoryId")
+                    .HasColumnType("integer");
+
+                b.Property<int>("ProductReceiptInformationId")
+                    .HasColumnType("integer");
+
+                b.HasKey("CustomCategoryId", "ProductReceiptInformationId");
+
+                b.HasIndex("ProductReceiptInformationId");
+
+                b.ToTable("CustomCategoriesForProducts");
+            });
+
+            modelBuilder.Entity("Stores.Api.Entities.PaymentMethod", b =>
+            {
+                b.Property<int>("PaymentMethodId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer")
+                    .HasAnnotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                b.Property<string>("MethodDescription")
+                    .HasColumnType("text");
+
+                b.Property<string>("MethodName")
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                b.HasKey("PaymentMethodId");
+
+                b.ToTable("PaymentMethods");
             });
 
             modelBuilder.Entity("Stores.Api.Entities.Product", b =>
@@ -62,6 +121,61 @@ namespace Stores.Api.Migrations
                 b.ToTable("Products");
             });
 
+            modelBuilder.Entity("Stores.Api.Entities.ProductReceiptInformation", b =>
+            {
+                b.Property<int>("ProductReceiptInformationId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer")
+                    .HasAnnotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                b.Property<int>("Count")
+                    .HasColumnType("integer");
+
+                b.Property<int?>("CustomCategoryId")
+                    .HasColumnType("integer");
+
+                b.Property<int>("ProductId")
+                    .HasColumnType("integer");
+
+                b.Property<int>("PurchaseId")
+                    .HasColumnType("integer");
+
+                b.HasKey("ProductReceiptInformationId");
+
+                b.HasIndex("CustomCategoryId");
+
+                b.HasIndex("ProductId");
+
+                b.HasIndex("PurchaseId");
+
+                b.ToTable("ProductsReceiptInformation");
+            });
+
+            modelBuilder.Entity("Stores.Api.Entities.Purchase", b =>
+            {
+                b.Property<int>("PurchaseId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer")
+                    .HasAnnotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                b.Property<int?>("PaymentMethodId")
+                    .HasColumnType("integer");
+
+                b.Property<DateTime>("TimeOfPurchase")
+                    .HasColumnType("timestamp without time zone");
+
+                b.Property<int>("UserId")
+                    .HasColumnType("integer");
+
+                b.HasKey("PurchaseId");
+
+                b.HasIndex("PaymentMethodId");
+
+                b.ToTable("Purchases");
+            });
+
             modelBuilder.Entity("Stores.Api.Entities.Store", b =>
             {
                 b.Property<int>("StoreId")
@@ -84,7 +198,7 @@ namespace Stores.Api.Migrations
 
                 b.HasKey("StoreId");
 
-                b.ToTable("Stores.Api");
+                b.ToTable("Stores");
             });
 
             modelBuilder.Entity("Stores.Api.Entities.StoreCategory", b =>
@@ -124,6 +238,25 @@ namespace Stores.Api.Migrations
                     .IsRequired();
             });
 
+            modelBuilder.Entity("Stores.Api.Entities.CustomCategoryForProduct", b =>
+            {
+                b.HasOne("Stores.Api.Entities.CustomCategory", "CustomCategory")
+                    .WithMany()
+                    .HasForeignKey("CustomCategoryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("Stores.Api.Entities.ProductReceiptInformation", "ProductReceiptInformation")
+                    .WithMany("CustomCategories")
+                    .HasForeignKey("ProductReceiptInformationId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("CustomCategory");
+
+                b.Navigation("ProductReceiptInformation");
+            });
+
             modelBuilder.Entity("Stores.Api.Entities.Product", b =>
             {
                 b.HasOne("Stores.Api.Entities.Store", null)
@@ -131,6 +264,38 @@ namespace Stores.Api.Migrations
                     .HasForeignKey("StoreId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
+            });
+
+            modelBuilder.Entity("Stores.Api.Entities.ProductReceiptInformation", b =>
+            {
+                b.HasOne("Stores.Api.Entities.CustomCategory", null)
+                    .WithMany("Information")
+                    .HasForeignKey("CustomCategoryId");
+
+                b.HasOne("Stores.Api.Entities.Product", "Product")
+                    .WithMany()
+                    .HasForeignKey("ProductId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("Stores.Api.Entities.Purchase", "Purchase")
+                    .WithMany("ReceiptPositions")
+                    .HasForeignKey("PurchaseId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Product");
+
+                b.Navigation("Purchase");
+            });
+
+            modelBuilder.Entity("Stores.Api.Entities.Purchase", b =>
+            {
+                b.HasOne("Stores.Api.Entities.PaymentMethod", "PaymentMethod")
+                    .WithMany()
+                    .HasForeignKey("PaymentMethodId");
+
+                b.Navigation("PaymentMethod");
             });
 
             modelBuilder.Entity("Stores.Api.Entities.StoreCategory", b =>
@@ -143,6 +308,13 @@ namespace Stores.Api.Migrations
 
                 b.Navigation("Store");
             });
+
+            modelBuilder.Entity("Stores.Api.Entities.CustomCategory", b => { b.Navigation("Information"); });
+
+            modelBuilder.Entity("Stores.Api.Entities.ProductReceiptInformation",
+                b => { b.Navigation("CustomCategories"); });
+
+            modelBuilder.Entity("Stores.Api.Entities.Purchase", b => { b.Navigation("ReceiptPositions"); });
 
             modelBuilder.Entity("Stores.Api.Entities.Store", b =>
             {
