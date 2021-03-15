@@ -16,11 +16,15 @@ namespace Purchases.Api.Data
         {
             _context = context;
             _userService = userService;
-
-            _context.Database.Migrate();
         }
 
-        public void EnsureUsersAdded()
+        public void Initialize()
+        {
+            _context.Database.Migrate();
+            EnsureUsersAdded();
+        }
+        
+        private void EnsureUsersAdded()
         {
             if (_context.Users.Any())
                 return;
@@ -30,17 +34,17 @@ namespace Purchases.Api.Data
                 new RegisterRequest
                 {
                     Email = "ivanov@mail.ru",
-                    Password = "12345i"
+                    Password = "12345678i"
                 },
                 new RegisterRequest
                 {
                     Email = "petrov@yandex.ru",
-                    Password = "12345p"
+                    Password = "12345678p"
                 },
                 new RegisterRequest
                 {
                     Email = "sidorov@gmail.com",
-                    Password = "12345s"
+                    Password = "12345678s"
                 }
             };
 

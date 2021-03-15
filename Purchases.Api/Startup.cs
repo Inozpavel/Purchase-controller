@@ -80,6 +80,7 @@ namespace Purchases.Api
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
@@ -111,7 +112,7 @@ namespace Purchases.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            seeder.EnsureUsersAdded();
+            seeder.Initialize();
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>
