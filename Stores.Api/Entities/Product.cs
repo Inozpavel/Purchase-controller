@@ -5,6 +5,17 @@ namespace Stores.Api.Entities
 {
     public class Product
     {
+        public Product()
+        {
+        }
+
+        public Product(string productName, decimal price, int countInStock)
+        {
+            ProductName = productName;
+            Price = price;
+            CountInStock = countInStock;
+        }
+
         public int StoreId { get; set; }
 
         [Required]

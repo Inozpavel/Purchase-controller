@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Stores.Api.Entities;
+using Stores.Api.Enums;
 
 namespace Stores.Api.Data
 {
@@ -15,7 +17,17 @@ namespace Stores.Api.Data
         {
             _context.Database.Migrate();
 
+            EnsurePaymentMethodsAdded();
             EnsureStoresAdded();
+        }
+
+        private void EnsurePaymentMethodsAdded()
+        {
+            string[] methods = Enum.GetNames(typeof(PaymentMethods));
+            if (_context.PaymentMethods.Any())
+                return;
+            _context.PaymentMethods.AddRange(methods.Select(name => new PaymentMethod(name)));
+            _context.SaveChanges();
         }
 
         private void EnsureStoresAdded()
@@ -38,6 +50,12 @@ namespace Stores.Api.Data
                         new("Овощи"),
                         new("Хлебобулочные изделия"),
                         new("Кондитерские изделия"),
+                    },
+                    Products = new List<Product>
+                    {
+                        new("Вода питьевая", 30, 100),
+                        new("Масло сливочное", 70, 50),
+                        new("Молоко", 100, 20),
                     }
                 },
                 new()
