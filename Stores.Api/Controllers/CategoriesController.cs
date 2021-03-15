@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stores.Api.DTOs;
@@ -10,8 +11,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Stores.Api.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("api/Stores.Api")]
+    [Route("api/Stores")]
     public class CategoriesController : ControllerBase
     {
         private readonly IStoreCategoryService _service;
@@ -50,6 +52,7 @@ namespace Stores.Api.Controllers
         /// </summary>
         /// <param name="storeId"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("{storeId}/[controller]")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If there are no categories in store")]
@@ -71,6 +74,7 @@ namespace Stores.Api.Controllers
         /// <param name="storeId"></param>
         /// <param name="categoryId"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("{storeId}/[controller]/{categoryId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]

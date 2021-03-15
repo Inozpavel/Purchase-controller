@@ -15,5 +15,7 @@ namespace Stores.Api.Data
         Task SaveChangesAsync();
 
         Task<IEnumerable<Purchase>> FindAllAsync(int userId);
+
+        Task<IEnumerable<PaymentMethod>> FindAllPaymentMethods();
     }
 }

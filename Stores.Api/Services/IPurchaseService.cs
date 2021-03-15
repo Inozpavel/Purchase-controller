@@ -7,8 +7,10 @@ namespace Stores.Api.Services
 {
     public interface IPurchaseService
     {
-        Task<Purchase> AddAsync(PurchaseRequest request);
+        Task<Purchase> AddAsync(int userId, PurchaseRequest request);
 
         Task<IEnumerable<Purchase>> FindAllPurchasesAsync(int userId);
+
+        Task<IEnumerable<PaymentMethod>> FindAllPaymentMethods();
     }
 }

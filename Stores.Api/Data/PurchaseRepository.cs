@@ -36,5 +36,8 @@ namespace Stores.Api.Data
         }
 
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+
+        public async Task<IEnumerable<PaymentMethod>> FindAllPaymentMethods() =>
+            await _context.PaymentMethods.ToListAsync();
     }
 }

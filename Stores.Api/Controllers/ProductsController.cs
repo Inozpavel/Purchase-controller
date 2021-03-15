@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stores.Api.DTOs;
@@ -12,8 +13,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Stores.Api.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("api/Stores.Api")]
+    [Route("api/Stores")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -53,6 +55,7 @@ namespace Stores.Api.Controllers
         /// <summary>
         ///     Finds all existing products in store
         /// </summary>
+        [AllowAnonymous]
         [HttpGet("{storeId}/products")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
@@ -72,6 +75,7 @@ namespace Stores.Api.Controllers
         /// <summary>
         ///     Finds product by id
         /// </summary>
+        [AllowAnonymous]
         [HttpGet("products/{productId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

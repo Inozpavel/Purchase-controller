@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stores.Api.DTOs;
@@ -12,6 +13,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Stores.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class StoresController : ControllerBase
@@ -43,6 +45,7 @@ namespace Stores.Api.Controllers
         /// <summary>
         ///     Finds all existing stores
         /// </summary>
+        [AllowAnonymous]
         [HttpGet("all")]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<Store>))]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If there are no stores")]
@@ -60,6 +63,7 @@ namespace Stores.Api.Controllers
         ///     Finds store by id
         /// </summary>
         /// <param name="id">Id of the store</param>
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(Store))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is wrong")]

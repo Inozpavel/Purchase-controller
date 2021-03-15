@@ -14,7 +14,7 @@ namespace Stores.Api.Services
         private readonly IMapper _mapper;
 
         private readonly IProductRepository _productRepository;
-        
+
         private readonly IPurchaseRepository _purchaseRepository;
 
         public PurchaseService(IPurchaseRepository purchaseRepository, IProductRepository productRepository,
@@ -25,7 +25,7 @@ namespace Stores.Api.Services
             _mapper = mapper;
         }
 
-        public async Task<Purchase> AddAsync(PurchaseRequest request)
+        public async Task<Purchase> AddAsync(int userId, PurchaseRequest request)
         {
             var paymentMethod = await _purchaseRepository.FindPaymentMethodByIdAsync(request.PaymentMethodId);
 
@@ -34,7 +34,7 @@ namespace Stores.Api.Services
 
             var purchase = _mapper.Map<Purchase>(request);
             purchase.PaymentMethod = paymentMethod;
-
+            purchase.UserId = userId;
             var list = new List<Product>();
 
             var updatedProducts = new List<Product>();
@@ -54,19 +54,18 @@ namespace Stores.Api.Services
                 updatedProducts.Add(product);
             }
 
-            int userId = 0;
             purchase.ReceiptPositions = list.Select((x, i) => new ProductReceiptInformation
             {
                 Product = x,
                 Count = request.ReceiptPositions[i].Count,
-                CustomCategories = request.ReceiptPositions[i].CustomCategories.Select(async name =>
+                CustomCategories = request.ReceiptPositions[i].CustomCategories?.Select(async name =>
                 {
                     var customCategory = await _purchaseRepository.FindCustomCategoryASync(userId, name);
                     return new CustomCategoryForProduct
                     {
                         CustomCategory = customCategory ?? new CustomCategory(name)
                     };
-                }).Select(t => t.Result).ToList()
+                }).Select(t => t.Result).ToList() ?? new List<CustomCategoryForProduct>()
             }).ToList();
 
 
@@ -81,5 +80,8 @@ namespace Stores.Api.Services
 
         public async Task<IEnumerable<Purchase>> FindAllPurchasesAsync(int userId) =>
             await _purchaseRepository.FindAllAsync(userId);
+
+        public async Task<IEnumerable<PaymentMethod>> FindAllPaymentMethods() =>
+            await _purchaseRepository.FindAllPaymentMethods();
     }
 }
