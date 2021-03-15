@@ -29,6 +29,7 @@ namespace Stores.Api
                 mapperConfiguration.AddProfile<StoreProfile>();
                 mapperConfiguration.AddProfile<ProductProfile>();
                 mapperConfiguration.AddProfile<CategoryProfile>();
+                mapperConfiguration.AddProfile<PurchaseProfile>();
             });
 
             services.AddSwaggerGen(options =>
@@ -64,6 +65,9 @@ namespace Stores.Api
 
             services.AddScoped<IStoreCategoryRepository, PostgreStoreCategoryRepository>();
             services.AddScoped<IStoreCategoryService, StoreCategoryService>();
+
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
 
             services.AddTransient<DatabaseInitializer>();
         }

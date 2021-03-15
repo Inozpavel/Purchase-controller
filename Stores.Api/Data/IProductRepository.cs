@@ -13,6 +13,8 @@ namespace Stores.Api.Data
 
         Task<Product?> Find(int storeId, string productName);
 
+        Task<Product?> Find(int storeId, int productId);
+
         Task<IEnumerable<Product>> FindByStore(int storeId);
 
         Product Update(Product product);

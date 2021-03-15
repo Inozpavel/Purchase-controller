@@ -27,6 +27,12 @@ namespace Stores.Api.Data
                 .FirstOrDefaultAsync(x => x.StoreId == storeId && x.ProductName == productName);
         }
 
+        public async Task<Product?> Find(int storeId, int productId)
+        {
+            return await _context.Products
+                .FirstOrDefaultAsync(x => x.StoreId == storeId && x.ProductId == productId);
+        }
+
         public async Task<IEnumerable<Product>> FindByStore(int storeId) =>
             await _context.Products.Where(x => x.StoreId == storeId).ToListAsync();
 
