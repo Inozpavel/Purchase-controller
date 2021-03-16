@@ -14,7 +14,7 @@ namespace Purchases.Api.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Purchases.Api.Entities.Purchase", b =>
@@ -25,15 +25,15 @@ namespace Purchases.Api.Migrations
                     .HasAnnotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                b.Property<decimal>("Cost")
-                    .HasColumnType("numeric");
-
                 b.Property<DateTime>("Date")
                     .HasColumnType("timestamp without time zone");
 
                 b.Property<string>("Name")
                     .IsRequired()
                     .HasColumnType("text");
+
+                b.Property<decimal>("Price")
+                    .HasColumnType("numeric");
 
                 b.Property<int>("UserId")
                     .HasColumnType("integer");
@@ -42,7 +42,7 @@ namespace Purchases.Api.Migrations
 
                 b.HasIndex("UserId");
 
-                b.ToTable("Purchases.Api");
+                b.ToTable("Purchases");
             });
 
             modelBuilder.Entity("Purchases.Api.Entities.User", b =>
@@ -79,7 +79,7 @@ namespace Purchases.Api.Migrations
             modelBuilder.Entity("Purchases.Api.Entities.Purchase", b =>
             {
                 b.HasOne("Purchases.Api.Entities.User", "User")
-                    .WithMany("Purchases.Api")
+                    .WithMany("Purchases")
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
@@ -87,7 +87,7 @@ namespace Purchases.Api.Migrations
                 b.Navigation("User");
             });
 
-            modelBuilder.Entity("Purchases.Api.Entities.User", b => { b.Navigation("Purchases.Api"); });
+            modelBuilder.Entity("Purchases.Api.Entities.User", b => { b.Navigation("Purchases"); });
 #pragma warning restore 612, 618
         }
     }

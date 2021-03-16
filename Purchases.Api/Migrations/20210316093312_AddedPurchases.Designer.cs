@@ -10,26 +10,23 @@ using Purchases.Api.Data;
 namespace Purchases.Api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210227070547_AddedTablePurchases")]
-    partial class AddedTablePurchases
+    [Migration("20210316093312_AddedPurchases")]
+    partial class AddedPurchases
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Purchases.Api.Entities.Purchase", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PurchaseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
@@ -38,19 +35,22 @@ namespace Purchases.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("PurchaseId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Purchases.Api");
+                    b.ToTable("Purchases");
                 });
 
             modelBuilder.Entity("Purchases.Api.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -73,7 +73,7 @@ namespace Purchases.Api.Migrations
                     b.Property<string>("Patronymic")
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
@@ -81,7 +81,7 @@ namespace Purchases.Api.Migrations
             modelBuilder.Entity("Purchases.Api.Entities.Purchase", b =>
                 {
                     b.HasOne("Purchases.Api.Entities.User", "User")
-                        .WithMany("Purchases.Api")
+                        .WithMany("Purchases")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -91,7 +91,7 @@ namespace Purchases.Api.Migrations
 
             modelBuilder.Entity("Purchases.Api.Entities.User", b =>
                 {
-                    b.Navigation("Purchases.Api");
+                    b.Navigation("Purchases");
                 });
 #pragma warning restore 612, 618
         }

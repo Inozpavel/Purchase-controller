@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 // ReSharper disable CollectionNeverUpdated.Global
@@ -7,12 +8,13 @@ using System.Text.Json.Serialization;
 
 namespace Purchases.Api.Entities
 {
+    [Table("Users")]
     public class User
     {
         public int UserId { get; set; }
 
         public string? FirstName { get; set; }
-    
+
         public string? LastName { get; set; }
 
         public string? Patronymic { get; set; }

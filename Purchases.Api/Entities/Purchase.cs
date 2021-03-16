@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 // ReSharper disable NotNullMemberIsNotInitialized
@@ -7,6 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace Purchases.Api.Entities
 {
+    [Table("Purchases")]
     public class Purchase
     {
         public int PurchaseId { get; set; }
@@ -22,6 +24,6 @@ namespace Purchases.Api.Entities
 
         public DateTime Date { get; set; }
 
-        public decimal Cost { get; set; }
+        public decimal Price { get; set; }
     }
 }

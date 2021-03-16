@@ -112,7 +112,7 @@ namespace Purchases.Tests
 
             var purchase = new Purchase
             {
-                Cost = 1200,
+                Price = 1200,
                 Date = DateTime.Now,
                 Name = "purchase",
                 UserId = user.UserId

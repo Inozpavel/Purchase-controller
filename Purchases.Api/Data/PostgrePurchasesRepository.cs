@@ -19,7 +19,7 @@ namespace Purchases.Api.Data
             {
                 Name = purchase.Name,
                 UserId = purchase.UserId,
-                Cost = purchase.Cost,
+                Price = purchase.Price,
                 Date = purchase.Date
             });
             return addedPurchase.Entity;
