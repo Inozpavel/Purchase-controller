@@ -21,7 +21,6 @@ namespace Stores.Api.Entities
 
         public int Count { get; set; }
 
-
         public List<CustomCategoryForProduct> CustomCategories { get; set; }
     }
 }

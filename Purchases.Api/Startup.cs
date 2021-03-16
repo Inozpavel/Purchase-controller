@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Purchases.Api.Data;
 using Purchases.Api.Mapper;
+using Purchases.Api.MassTransit;
 using Purchases.Api.Services;
 
 namespace Purchases.Api
@@ -103,6 +105,31 @@ namespace Purchases.Api
             services.AddScoped<IPurchasesService, PurchasesService>();
 
             services.AddTransient<DatabaseInitializer>();
+
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<StorePurchaseConsumer>();
+                x.SetKebabCaseEndpointNameFormatter();
+
+                x.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.Host(_configuration["RABBITMQ_HOST"], options =>
+                    {
+                        options.Username(_configuration["RABBITMQ_USER"]);
+                        options.Password(_configuration["RABBITMQ_PASSWORD"]);
+                    });
+
+                    configurator.ReceiveEndpoint("Purchases",
+                        endpointConfigurator =>
+                        {
+                            endpointConfigurator.Durable = true;
+                            endpointConfigurator.AutoDelete = false;
+                            endpointConfigurator.Consumer<StorePurchaseConsumer>(context);
+                        });
+                });
+            });
+
+            services.AddMassTransitHostedService();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseInitializer seeder)
@@ -129,5 +156,9 @@ namespace Purchases.Api
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
+    }
+
+    public class StoreConsumerDefinition
+    {
     }
 }

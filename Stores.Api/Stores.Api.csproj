@@ -16,6 +16,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Inozpavel.Purchases.Contracts" Version="1.0.0" />
+      <PackageReference Include="MassTransit" Version="7.1.6" />
+      <PackageReference Include="MassTransit.AspNetCore" Version="7.1.6" />
+      <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.1.6" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.6" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
         <PrivateAssets>all</PrivateAssets>

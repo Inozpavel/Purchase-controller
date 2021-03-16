@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Purchases.Contracts;
 using Stores.Api.DTOs;
 using Stores.Api.Entities;
 using Stores.Api.Exceptions;
@@ -12,14 +14,23 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Stores.Api.Controllers
 {
+    /// <summary>
+    ///     Adds receipt information for user
+    /// </summary>
     [Authorize]
     [ApiController]
     [Route("/api/[controller]")]
     public class PurchasesController : ControllerBase
     {
+        private readonly IPublishEndpoint _endpoint;
+
         private readonly IPurchaseService _service;
 
-        public PurchasesController(IPurchaseService service) => _service = service;
+        public PurchasesController(IPublishEndpoint endpoint, IPurchaseService service)
+        {
+            _endpoint = endpoint;
+            _service = service;
+        }
 
         [HttpPost("add")]
         [SwaggerResponse(StatusCodes.Status200OK)]
@@ -30,6 +41,20 @@ namespace Stores.Api.Controllers
             {
                 int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "id")?.Value ?? "-1");
                 var purchase = await _service.AddAsync(userId, request);
+
+
+                var storePurchase = new StorePurchase
+                {
+                    Date = purchase.TimeOfPurchase,
+                    UserId = userId,
+                    PurchaseProducts = purchase.ReceiptPositions.Select(x => new PurchaseProduct
+                    {
+                        Count = x.Count,
+                        Name = x.Product.ProductName,
+                        Price = x.Product.Price
+                    }).ToList()
+                };
+                await _endpoint.Publish(storePurchase);
                 return Ok(purchase);
             }
             catch (ApiException e)
@@ -38,6 +63,9 @@ namespace Stores.Api.Controllers
             }
         }
 
+        /// <summary>
+        ///     Finds all receipts for user
+        /// </summary>
         [HttpGet("all")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
@@ -50,6 +78,10 @@ namespace Stores.Api.Controllers
             return Ok(purchases);
         }
 
+        /// <summary>
+        ///     Finds all payment methods
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("paymentMethods")]
         [SwaggerResponse(StatusCodes.Status200OK)]
