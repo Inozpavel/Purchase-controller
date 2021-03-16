@@ -27,7 +27,7 @@ namespace Purchases.Api.Controllers
         /// <summary>
         ///     Get all purchases for user
         /// </summary>
-        [HttpGet("all")]
+        [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If the are no purchases")]
         public async Task<ActionResult<IEnumerable<Purchase>>> GetAll()
@@ -43,7 +43,7 @@ namespace Purchases.Api.Controllers
         ///     Get all purchases on date for user
         /// </summary>
         /// <param name="date" example="2021-02-27T06:20:30">Time when the purchases was made</param>
-        [HttpGet("all/{date}")]
+        [HttpGet("{date}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If the are no purchases")]
         public async Task<ActionResult<IEnumerable<Purchase>>> GetAllOnDate([Required] DateTime date)

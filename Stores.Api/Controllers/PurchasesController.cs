@@ -20,6 +20,7 @@ namespace Stores.Api.Controllers
     [Authorize]
     [ApiController]
     [Route("/api/[controller]")]
+    [SwaggerTag("Operations about receipts and payment methods")]
     public class PurchasesController : ControllerBase
     {
         private readonly IPublishEndpoint _endpoint;
@@ -32,9 +33,10 @@ namespace Stores.Api.Controllers
             _service = service;
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         public async Task<ActionResult<Purchase>> Add(PurchaseRequest request)
         {
             try
@@ -66,9 +68,10 @@ namespace Stores.Api.Controllers
         /// <summary>
         ///     Finds all receipts for user
         /// </summary>
-        [HttpGet("all")]
+        [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         public async Task<ActionResult<Purchase>> All()
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "id")?.Value ?? "-1");

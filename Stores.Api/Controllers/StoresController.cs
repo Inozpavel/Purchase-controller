@@ -16,6 +16,7 @@ namespace Stores.Api.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
+    [SwaggerTag("Operations about stores")]
     public class StoresController : ControllerBase
     {
         private readonly IStoreService _storeService;
@@ -25,10 +26,11 @@ namespace Stores.Api.Controllers
         /// <summary>
         ///     Creates new store
         /// </summary>
-        [HttpPost("add")]
+        [HttpPost]
         [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(Store))]
         [SwaggerResponse(StatusCodes.Status400BadRequest,
             "If store at given address with given name is already existing")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         public async Task<ActionResult<Store>> Add([Required] StoreRequest request)
         {
             try
@@ -46,7 +48,7 @@ namespace Stores.Api.Controllers
         ///     Finds all existing stores
         /// </summary>
         [AllowAnonymous]
-        [HttpGet("all")]
+        [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<Store>))]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If there are no stores")]
         public async Task<ActionResult<IEnumerable<Store>>> All()
@@ -87,6 +89,7 @@ namespace Stores.Api.Controllers
         [SwaggerResponse(StatusCodes.Status400BadRequest,
             "If store at given address with given name is already existing!",
             typeof(ProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is wrong")]
         public async Task<ActionResult<Store>> UpdateById(int id, StoreRequest request)
         {
@@ -112,6 +115,7 @@ namespace Stores.Api.Controllers
         /// <param name="id">Id of the store</param>
         [HttpDelete("{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(Store))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is wrong")]
         public async Task<ActionResult<Store>> DeleteById(int id)
         {

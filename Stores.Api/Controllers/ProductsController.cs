@@ -16,6 +16,7 @@ namespace Stores.Api.Controllers
     [Authorize]
     [ApiController]
     [Route("api/Stores")]
+    [SwaggerTag("Operations about products")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -31,9 +32,10 @@ namespace Stores.Api.Controllers
         /// <summary>
         ///     Creates a new product for store
         /// </summary>
-        [HttpPost("{storeId}/products/add")]
+        [HttpPost("{storeId}/products")]
         [SwaggerResponse(StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> Add(int storeId, [Required] ProductRequest request)
         {
@@ -94,6 +96,7 @@ namespace Stores.Api.Controllers
         /// </summary>
         [HttpPut("products/{productId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> UpdateById(int productId, ProductRequest request)
         {
@@ -112,6 +115,7 @@ namespace Stores.Api.Controllers
         /// </summary>
         [HttpDelete("products/{productId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> DeleteById(int productId)
         {

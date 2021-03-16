@@ -14,6 +14,7 @@ namespace Stores.Api.Controllers
     [Authorize]
     [ApiController]
     [Route("api/Stores")]
+    [SwaggerTag("Operations about cateries in stores")]
     public class CategoriesController : ControllerBase
     {
         private readonly IStoreCategoryService _service;
@@ -26,10 +27,11 @@ namespace Stores.Api.Controllers
         /// <param name="storeId"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("{storeId}/[controller]/add")]
+        [HttpPost("{storeId}/[controller]")]
         [SwaggerResponse(StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "If category with given name is alreay added in store",
             typeof(ProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
         public async Task<ActionResult<StoreCategory>> Add(int storeId, CategoryRequest request)
         {
@@ -96,6 +98,7 @@ namespace Stores.Api.Controllers
         /// <returns></returns>
         [HttpPut("{storeId}/[controller]/{categoryId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "If category id is not found", typeof(ProblemDetails))]
         [ProducesDefaultResponseType]
@@ -126,6 +129,7 @@ namespace Stores.Api.Controllers
         /// <returns></returns>
         [HttpDelete("{storeId}/[controller]/{categoryId}")]
         [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "If user if unauthorized")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "If id is incorrect")]
         public async Task<ActionResult<StoreCategory>> DeleteById(int storeId, int categoryId)
         {
