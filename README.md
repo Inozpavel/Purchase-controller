@@ -4,11 +4,11 @@
 | ------ | ---- | ---- |
 |  Build and  test  | [![CI](https://github.com/Inozpavel/RTUITLabBackend/actions/workflows/dotnet.yml/badge.svg?branch=master&event=push)](https://github.com/Inozpavel/RTUITLabBackend/actions/workflows/dotnet.yml)| [![CI](https://github.com/Inozpavel/RTUITLabBackend/actions/workflows/dotnet.yml/badge.svg?branch=dev&event=push)](https://github.com/Inozpavel/RTUITLabBackend/actions/workflows/dotnet.yml) |
 
-Prerequriments
+## Prerequisites for launching
 
 [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
-Run system locally using Docker images
+## Run system locally using Docker images
 
 To run project open console in folder with [docker-compose.yml](docker-compose.yml?raw=true) file and run this commands
 
