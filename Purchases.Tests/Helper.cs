@@ -20,7 +20,7 @@ namespace Purchases.Tests
             Configuration = new ConfigurationBuilder().AddJsonFile(configPath).Build();
         }
 
-        public static AutoMapper.Mapper CreateMapperWithProfiles<T>(params T[] profiles) where T : Profile
+        public static Mapper CreateMapperWithProfiles<T>(params T[] profiles) where T : Profile
         {
             return new(new MapperConfiguration(options =>
             {

@@ -23,7 +23,7 @@ namespace Purchases.Api.Data
             _context.Database.Migrate();
             EnsureUsersAdded();
         }
-        
+
         private void EnsureUsersAdded()
         {
             if (_context.Users.Any())
