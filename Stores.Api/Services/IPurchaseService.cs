@@ -12,5 +12,7 @@ namespace Stores.Api.Services
         Task<IEnumerable<Purchase>> FindAllPurchasesAsync(int userId);
 
         Task<IEnumerable<PaymentMethod>> FindAllPaymentMethods();
+
+        Task<IEnumerable<Purchase>> FindAllPurchasesForStoreAsync(int storeId);
     }
 }

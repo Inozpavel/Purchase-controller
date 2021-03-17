@@ -35,6 +35,7 @@ namespace Stores.Api.Services
             var purchase = _mapper.Map<Purchase>(request);
             purchase.PaymentMethod = paymentMethod;
             purchase.UserId = userId;
+            purchase.StoreId = request.StoreId;
             var list = new List<Product>();
 
             var updatedProducts = new List<Product>();
@@ -83,5 +84,8 @@ namespace Stores.Api.Services
 
         public async Task<IEnumerable<PaymentMethod>> FindAllPaymentMethods() =>
             await _purchaseRepository.FindAllPaymentMethods();
+
+        public async Task<IEnumerable<Purchase>> FindAllPurchasesForStoreAsync(int storeId) =>
+            await _purchaseRepository.FindAllForStoreAsync(storeId);
     }
 }

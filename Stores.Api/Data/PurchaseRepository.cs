@@ -39,5 +39,13 @@ namespace Stores.Api.Data
 
         public async Task<IEnumerable<PaymentMethod>> FindAllPaymentMethods() =>
             await _context.PaymentMethods.ToListAsync();
+
+        public async Task<IEnumerable<Purchase>> FindAllForStoreAsync(int storeId)
+        {
+            return await _context.Purchases.Where(x => x.StoreId == storeId)
+                .Include("ReceiptPositions.CustomCategories.CustomCategory")
+                .Include("ReceiptPositions.Product.Categories")
+                .ToListAsync();
+        }
     }
 }

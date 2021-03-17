@@ -163,6 +163,9 @@ namespace Stores.Api.Migrations
                 b.Property<int?>("PaymentMethodId")
                     .HasColumnType("integer");
 
+                b.Property<int>("StoreId")
+                    .HasColumnType("integer");
+
                 b.Property<DateTime>("TimeOfPurchase")
                     .HasColumnType("timestamp without time zone");
 
@@ -172,6 +175,8 @@ namespace Stores.Api.Migrations
                 b.HasKey("PurchaseId");
 
                 b.HasIndex("PaymentMethodId");
+
+                b.HasIndex("StoreId");
 
                 b.ToTable("Purchases");
             });
@@ -295,7 +300,15 @@ namespace Stores.Api.Migrations
                     .WithMany()
                     .HasForeignKey("PaymentMethodId");
 
+                b.HasOne("Stores.Api.Entities.Store", "Store")
+                    .WithMany()
+                    .HasForeignKey("StoreId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
                 b.Navigation("PaymentMethod");
+
+                b.Navigation("Store");
             });
 
             modelBuilder.Entity("Stores.Api.Entities.StoreCategory", b =>

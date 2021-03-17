@@ -8,8 +8,12 @@ namespace Stores.Api.Entities
     {
         public int PurchaseId { get; set; }
 
-        [JsonIgnore]
         public int UserId { get; set; }
+
+        public int StoreId { get; set; }
+
+        [JsonIgnore]
+        public Store Store { get; set; }
 
         public DateTime TimeOfPurchase { get; set; }
 

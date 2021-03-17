@@ -33,6 +33,11 @@ namespace Stores.Api.Controllers
             _service = service;
         }
 
+        /// <summary>
+        ///     Creates new receipt for user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
@@ -43,7 +48,6 @@ namespace Stores.Api.Controllers
             {
                 int userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "id")?.Value ?? "-1");
                 var purchase = await _service.AddAsync(userId, request);
-
 
                 var storePurchase = new StorePurchase
                 {
@@ -92,6 +96,23 @@ namespace Stores.Api.Controllers
         public async Task<ActionResult<IEnumerable<PaymentMethod>>> GetAllPaymentMethods()
         {
             var paymentMethods = await _service.FindAllPaymentMethods();
+            if (!paymentMethods.Any())
+                return NoContent();
+
+            return Ok(paymentMethods);
+        }
+
+        /// <summary>
+        ///     Finds all purchases for store
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("{storeId}")]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<IEnumerable<PaymentMethod>>> GetAllPurchasesForStore(int storeId)
+        {
+            var paymentMethods = await _service.FindAllPurchasesForStoreAsync(storeId);
             if (!paymentMethods.Any())
                 return NoContent();
 
