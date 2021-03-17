@@ -103,41 +103,5 @@ namespace Purchases.Tests
             else
                 Assert.IsType<NoContentResult>(response.Result);
         }
-
-
-        [Fact]
-        public async Task CanAddPurchase()
-        {
-            var user = Helper.GenerateRandomUser();
-
-            var purchase = new Purchase
-            {
-                Price = 1200,
-                Date = DateTime.Now,
-                Name = "purchase",
-                UserId = user.UserId
-            };
-
-            Mock<IPurchasesRepository> mock = new();
-            PurchasesService service = new(mock.Object);
-            mock.Setup(x => x.AddAsync(purchase)).ReturnsAsync(purchase);
-
-            var controller = new PurchasesController(service)
-            {
-                ControllerContext = new ControllerContext
-                {
-                    HttpContext = new DefaultHttpContext
-                    {
-                        User = new ClaimsPrincipal(new ClaimsIdentity(new[]
-                        {
-                            new Claim("id", user.UserId.ToString())
-                        }))
-                    }
-                }
-            };
-
-            var response = await controller.Add(purchase);
-            Assert.IsType<OkObjectResult>(response);
-        }
     }
 }

@@ -10,7 +10,5 @@ namespace Purchases.Api.Services
         Task<IEnumerable<Purchase>> AllForUserAsync(int userId);
 
         Task<IEnumerable<Purchase>> AllForUserOnDateAsync(int userId, DateTime date);
-
-        Task<Purchase> AddAsync(Purchase purchase);
     }
 }

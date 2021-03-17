@@ -70,7 +70,7 @@ namespace Purchases.Api.Controllers
         /// <summary>
         ///     Finds all existing users
         /// </summary>
-        [HttpGet("all")]
+        [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "If there are no users")]
         // Todo: Remove when project will be ready

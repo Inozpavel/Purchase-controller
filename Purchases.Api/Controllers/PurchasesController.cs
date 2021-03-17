@@ -54,20 +54,6 @@ namespace Purchases.Api.Controllers
             return Ok(purchases);
         }
 
-        /// <summary>
-        ///     Add purchase for user
-        /// </summary>
-        /// <param name="purchase"></param>
-        [HttpPost("add")]
-        [SwaggerResponse(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Add([Required] Purchase purchase)
-        {
-            purchase.UserId = GetUserId();
-
-            var addedPurchase = await _purchasesService.AddAsync(purchase);
-            return Ok(addedPurchase);
-        }
-
         private int GetUserId()
         {
             string id = ((ClaimsIdentity) User.Identity)?.FindFirst(x => x.Type == "id")?.Value ??

@@ -17,12 +17,5 @@ namespace Purchases.Api.Services
 
         public async Task<IEnumerable<Purchase>> AllForUserOnDateAsync(int userId, DateTime date) =>
             await _repository.AllForUserOnDateAsync(userId, date);
-
-        public async Task<Purchase> AddAsync(Purchase purchase)
-        {
-            var addedPurchase = await _repository.AddAsync(purchase);
-            await _repository.SaveChangesAsync();
-            return addedPurchase;
-        }
     }
 }
