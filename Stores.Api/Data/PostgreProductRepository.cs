@@ -18,7 +18,8 @@ namespace Stores.Api.Data
             return addedProduct.Entity;
         }
 
-        public async Task<Product?> Find(int id) => await _context.Products.Include(x => x.Categories)
+        public async Task<Product?> Find(int id) => await _context.Products
+            .Include(x => x.Categories)
             .FirstOrDefaultAsync(x => x.ProductId == id);
 
         public async Task<Product?> Find(int storeId, string productName)
@@ -30,11 +31,14 @@ namespace Stores.Api.Data
         public async Task<Product?> Find(int storeId, int productId)
         {
             return await _context.Products
+                .Include(x => x.Categories)
                 .FirstOrDefaultAsync(x => x.StoreId == storeId && x.ProductId == productId);
         }
 
         public async Task<IEnumerable<Product>> FindByStore(int storeId) =>
-            await _context.Products.Where(x => x.StoreId == storeId).ToListAsync();
+            await _context.Products
+                .Include(x => x.Categories)
+                .Where(x => x.StoreId == storeId).ToListAsync();
 
         public Product Update(Product product)
         {
