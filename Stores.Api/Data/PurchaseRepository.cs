@@ -32,6 +32,7 @@ namespace Stores.Api.Data
             return await _context.Purchases.Where(x => x.UserId == userId)
                 .Include("ReceiptPositions.CustomCategories.CustomCategory")
                 .Include("ReceiptPositions.Product.Categories")
+                .Include(x => x.PaymentMethod)
                 .ToListAsync();
         }
 
@@ -45,6 +46,7 @@ namespace Stores.Api.Data
             return await _context.Purchases.Where(x => x.StoreId == storeId)
                 .Include("ReceiptPositions.CustomCategories.CustomCategory")
                 .Include("ReceiptPositions.Product.Categories")
+                .Include(x => x.PaymentMethod)
                 .ToListAsync();
         }
     }
