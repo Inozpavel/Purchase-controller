@@ -1,4 +1,5 @@
 # Backend Web API for RTUITLab
+An implementation of https://github.com/RTUITLab/Recruit/blob/master/requirements/back/README.md
 
 | Status | Master | Develop |
 | ------ | ---- | ---- |
