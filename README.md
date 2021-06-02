@@ -1,4 +1,5 @@
 # Backend Web API for RTUITLab
+An implementation of https://github.com/RTUITLab/Recruit/blob/master/requirements/back/README.md
 
 | Status | Master | Develop |
 | ------ | ---- | ---- |
@@ -58,3 +59,15 @@ Packages
 
 - [AutoMapper](https://github.com/AutoMapper/AutoMapper)
 - JWT Bearer for authentication
+## Информация по сдаче итогового проекта
+### 1. Информация про проект, UserStory, Макет
+  * Дата сдачи: 4 марта 2021г
+  * Баллы: 2 балла
+
+### 2. Работа над проектом. Оформление ReadMe
+  * Дата сдачи: 1 апреля 2021г
+  * Баллы: 2 балла
+
+### 3. Docker
+  * Дата сдачи: 22 апреля 2021г
+  * Баллы: 2 балла
