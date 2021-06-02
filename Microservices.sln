@@ -10,6 +10,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Tests", "Stores.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.Contracts", "Purchases.Contracts\Purchases.Contracts.csproj", "{F5501DDD-7BF8-4DC3-882A-1FC028376E17}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{2D278C4C-8E62-4227-8155-6696C7BD26E2}"
+ProjectSection(SolutionItems) = preProject
+	README.md = README.md
+	docker-compose.yml = docker-compose.yml
+	.gitignore = .gitignore
+	Architecture.png = Architecture.png
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +44,12 @@ Global
 		{F5501DDD-7BF8-4DC3-882A-1FC028376E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5501DDD-7BF8-4DC3-882A-1FC028376E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5501DDD-7BF8-4DC3-882A-1FC028376E17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1A677791-E8EE-4313-A20B-E38676E63475} = {2D278C4C-8E62-4227-8155-6696C7BD26E2}
+		{F5501DDD-7BF8-4DC3-882A-1FC028376E17} = {2D278C4C-8E62-4227-8155-6696C7BD26E2}
+		{B7D0D81A-568A-4B78-8226-750F19546EDA} = {2D278C4C-8E62-4227-8155-6696C7BD26E2}
+		{32C9EA80-A310-4EC1-AC46-EC2E992E3122} = {2D278C4C-8E62-4227-8155-6696C7BD26E2}
+		{EF83E660-3E70-407A-9435-CD9AABD93D3B} = {2D278C4C-8E62-4227-8155-6696C7BD26E2}
 	EndGlobalSection
 EndGlobal

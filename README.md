@@ -29,28 +29,32 @@ and [localhost:8001](http://localhost:8001)
 
 ## Project Information
 
+#### Architecture
+![Architecture](Architecture.png)
 ### Project technologies stack
 
 Main framework
+- [ASP.Net Core](https://dotnet.microsoft.com/apps/aspnet)
 
-- ASP.Net Core
+ORM
+- [Entity Framework Core for PostgreSQL](https://github.com/npgsql/efcore.pg)
 
 Database
-
-- PostgreSQL
+- [PostgreSQL](https://www.postgresql.org/)
 
 Message broker
+- [RabbitMQ (MassTransit)](https://masstransit-project.com/usage/transports/rabbitmq.html)
 
-- RabbitMQ (MassTransit)
+Documentation
+- [Swagger](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
 
 Testing
 
-- xUnit
-- Mock
-- AutoFixture
+- [xUnit](https://github.com/xunit/xunit)
+- [Moq](https://github.com/moq/moq4)
+- [AutoFixture](https://github.com/AutoFixture/AutoFixture)
 
 Packages
 
-- AutoMapper
-- Entity Framework Core for PostgreSQL
+- [AutoMapper](https://github.com/AutoMapper/AutoMapper)
 - JWT Bearer for authentication
