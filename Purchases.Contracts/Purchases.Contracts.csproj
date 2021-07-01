@@ -4,6 +4,10 @@
         <TargetFramework>net5.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>Inozpavel.Purchases.Contracts</PackageId>
+        <Title>Microservoces.Purchases.Contracts</Title>
+        <RepositoryUrl>https://github.com/Inozpavel/Purchase-controller</RepositoryUrl>
+        <RepositoryType>GitHub</RepositoryType>
+        <Authors>Inozpavel</Authors>
     </PropertyGroup>
 
 </Project>
